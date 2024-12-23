@@ -1,0 +1,16 @@
+@use '@angular/material' as mat;
+
+$primary-color: #131936
+$accent-color: #EBB42E
+$warn-color: red
+
+$custom-theme: mat.define-light-theme((
+  color: (
+    primary: $primary-color,
+    accent: $accent-color,
+    warn: $warn-color,
+  ),
+  typography: mat.define-typography-config(),
+))
+
+@include mat.all-component-themes($custom-theme)
