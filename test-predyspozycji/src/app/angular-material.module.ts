@@ -6,6 +6,7 @@ import { MatCardModule } from "@angular/material/card"
 import { MatToolbarModule } from "@angular/material/toolbar"
 import { MatDividerModule } from "@angular/material/divider"
 import { MatProgressBarModule } from "@angular/material/progress-bar"
+import { MatCheckboxModule } from "@angular/material/checkbox"
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { MatProgressBarModule } from "@angular/material/progress-bar"
         MatInputModule,
         MatToolbarModule,
         MatDividerModule,
-        MatProgressBarModule
+        MatProgressBarModule,
+        MatCheckboxModule
     ],
 
     providers: [

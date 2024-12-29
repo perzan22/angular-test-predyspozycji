@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 export interface Question {
   question: string;
@@ -11,6 +12,8 @@ export interface Question {
   styleUrl: './select-question.component.sass'
 })
 export class SelectQuestionComponent {
+
+  constructor(private router: Router) {}
 
   questions: Question[] = [
     { question: 'Pytanie 1', answers: ['Odpowiedź 1', 'Odpowiedź 2', 'Odpowiedź 3', 'Odpowiedź 4'] },
@@ -30,6 +33,7 @@ export class SelectQuestionComponent {
       this.currentQuestionIndex++;
       console.log(answer)
       console.log('Koniec')
+      this.router.navigate(['/poznaj-wynik'])
     }
   }
 

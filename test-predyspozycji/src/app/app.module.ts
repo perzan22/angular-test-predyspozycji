@@ -9,6 +9,7 @@ import { AngularMaterialModule } from './angular-material.module';
 import { HeaderComponent } from './header/header/header.component';
 import { FooterComponent } from './footer/footer/footer.component';
 import { SelectQuestionComponent } from './questions/select-question/select-question.component';
+import { EmailFormComponent } from './questions/email-form/email-form.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { SelectQuestionComponent } from './questions/select-question/select-ques
     MainPageComponent,
     HeaderComponent,
     FooterComponent,
-    SelectQuestionComponent
+    SelectQuestionComponent,
+    EmailFormComponent
   ],
   imports: [
     BrowserModule,

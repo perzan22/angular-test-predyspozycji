@@ -1,0 +1,35 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>
+            Poznaj wynik!
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <h3>Aby poznać wynik wypełnij formularz</h3>
+        <form>
+            <mat-form-field appearance="outline">
+                <mat-label>Imię</mat-label>
+                <input matInput placeholder="Imię">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Nazwisko</mat-label>
+                <input matInput placeholder="Nazwisko">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" placeholder="Email">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Miasto</mat-label>
+                <input matInput placeholder="Miasto">
+            </mat-form-field>
+            <section class="buttons">
+                <section class="checkboxes">
+                    <mat-checkbox class="custom-checkbox">*Przeczytałem i akceptuję warunki przetwarzania danych osobowych oraz pozostałe zgody.</mat-checkbox>
+                    <mat-checkbox class="custom-checkbox">*Wyrażam dobrowolną zgodę na otrzymywanie drogą elektroniczną materiałów marketingowo-informacyjnych od Akademii Marynarki Wojennej im. Bohaterów Westerplatte, ul. Śmidowicza 69, 81-127 Gdynia, na wskazany w formularzu adres poczty elektornicznej.</mat-checkbox>
+                </section>
+                <button mat-flat-button type="submit" color="accent">Poznaj wynik!</button>
+            </section>
+        </form>
+    </mat-card-content>
+</mat-card>
