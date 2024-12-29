@@ -10,6 +10,7 @@ import { HeaderComponent } from './header/header/header.component';
 import { FooterComponent } from './footer/footer/footer.component';
 import { SelectQuestionComponent } from './questions/select-question/select-question.component';
 import { EmailFormComponent } from './questions/email-form/email-form.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { EmailFormComponent } from './questions/email-form/email-form.component'
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AngularMaterialModule
+    AngularMaterialModule,
+    HttpClientModule
   ],
   providers: [
     provideAnimationsAsync()

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AnswerService } from '../answer.service';
 
 export interface Question {
   question: string;
@@ -13,7 +14,7 @@ export interface Question {
 })
 export class SelectQuestionComponent {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private answerService: AnswerService) {}
 
   questions: Question[] = [
     { question: 'Pytanie 1', answers: ['Odpowiedź 1', 'Odpowiedź 2', 'Odpowiedź 3', 'Odpowiedź 4'] },
@@ -26,10 +27,15 @@ export class SelectQuestionComponent {
 
   nextQuestion(answer: string) {
     if (this.currentQuestionIndex < this.questions.length - 1) {
+      this.answerService.sendAnswer(answer).subscribe(response => {
+        console.log('Zapisano: ', response)
+      })
       this.currentQuestionIndex++;
       console.log(this.currentQuestionIndex + " " + this.questions.length)
-      console.log(answer)
     } else {
+      this.answerService.sendAnswer(answer).subscribe(response => {
+        console.log('Zapisano: ', response)
+      })
       this.currentQuestionIndex++;
       console.log(answer)
       console.log('Koniec')

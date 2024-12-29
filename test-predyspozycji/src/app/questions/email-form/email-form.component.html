@@ -1,35 +1,41 @@
-<mat-card>
+<mat-card appearance="outlined">
     <mat-card-header>
         <mat-card-title>
-            Poznaj wynik!
+            Ostatni krok!
         </mat-card-title>
     </mat-card-header>
     <mat-card-content>
         <h3>Aby poznać wynik wypełnij formularz</h3>
         <form>
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" floatLabel="always">
                 <mat-label>Imię</mat-label>
-                <input matInput placeholder="Imię">
+                <input matInput placeholder="np. Jan">
             </mat-form-field>
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" floatLabel="always">
                 <mat-label>Nazwisko</mat-label>
-                <input matInput placeholder="Nazwisko">
+                <input matInput placeholder="np. Nowak">
             </mat-form-field>
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" floatLabel="always">
                 <mat-label>Email</mat-label>
-                <input matInput type="email" placeholder="Email">
+                <input matInput type="email" placeholder="np. jannowak@poczta.pl">
             </mat-form-field>
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" floatLabel="always">
                 <mat-label>Miasto</mat-label>
-                <input matInput placeholder="Miasto">
+                <input matInput placeholder="np. Gdynia">
             </mat-form-field>
             <section class="buttons">
                 <section class="checkboxes">
                     <mat-checkbox class="custom-checkbox">*Przeczytałem i akceptuję warunki przetwarzania danych osobowych oraz pozostałe zgody.</mat-checkbox>
                     <mat-checkbox class="custom-checkbox">*Wyrażam dobrowolną zgodę na otrzymywanie drogą elektroniczną materiałów marketingowo-informacyjnych od Akademii Marynarki Wojennej im. Bohaterów Westerplatte, ul. Śmidowicza 69, 81-127 Gdynia, na wskazany w formularzu adres poczty elektornicznej.</mat-checkbox>
                 </section>
-                <button mat-flat-button type="submit" color="accent">Poznaj wynik!</button>
+                <button mat-flat-button type="button" color="accent" class="result-btn" (click)="getResults()">Poznaj wynik!</button>
             </section>
         </form>
     </mat-card-content>
 </mat-card>
+<div *ngIf="results">
+    <h2>Wyniki</h2>
+    <ul>
+      <li *ngFor="let answer of results">{{ answer }}</li>
+    </ul>
+  </div>
