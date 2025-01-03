@@ -1,3 +1,5 @@
+const db = require('../db')
+
 let answers = [];
 
 exports.saveAnswers = (req, res, next) => {

@@ -1,12 +1,12 @@
 <mat-card appearance="outlined" *ngIf="questions.length > currentQuestionIndex; else endTemplate">
     <mat-card-header>
-        <mat-card-title>{{ questions[currentQuestionIndex].question }}</mat-card-title>
+        <mat-card-title>{{ questions[currentQuestionIndex].tresc }}</mat-card-title>
         <mat-card-subtitle>Instrukcja do pytania</mat-card-subtitle>
     </mat-card-header>
     <mat-divider></mat-divider>
     <mat-card-content>
         <section class="answers-panel">
-            <div class="answer" *ngFor="let answer of questions[currentQuestionIndex].answers; let i = index" (click)="nextQuestion(answer)">
+            <div class="answer" *ngFor="let answer of answers[currentQuestionIndex]; let i = index" (click)="nextQuestion(answer)">
                 <h1>{{ getLetter(i) }}</h1><p>{{ answer }}</p>
             </div>
         </section>

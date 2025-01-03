@@ -1,39 +1,51 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AnswerService } from '../answer.service';
+import { QuestionService } from '../questions.service';
+import { Subscription } from 'rxjs';
+import { Question } from '../question.model';
 
-export interface Question {
-  question: string;
-  answers: string[];
-}
 
 @Component({
   selector: 'app-select-question',
   templateUrl: './select-question.component.html',
   styleUrl: './select-question.component.sass'
 })
-export class SelectQuestionComponent {
+export class SelectQuestionComponent implements OnInit {
+  questions: Question[] = []
 
-  constructor(private router: Router, private answerService: AnswerService) {}
-
-  questions: Question[] = [
-    { question: 'Pytanie 1', answers: ['Odpowiedź 1', 'Odpowiedź 2', 'Odpowiedź 3', 'Odpowiedź 4'] },
-    { question: 'Pytanie 2', answers: ['Odpowiedź 1', 'Odpowiedź 2', 'Odpowiedź 3', 'Odpowiedź 4'] },
-    { question: 'Pytanie 3', answers: ['Odpowiedź 1', 'Odpowiedź 2', 'Odpowiedź 3', 'Odpowiedź 4'] },
-    { question: 'Pytanie 4', answers: ['Odpowiedź 1', 'Odpowiedź 2', 'Odpowiedź 3', 'Odpowiedź 4'] },
-  ];
+  answers = [
+    ['Odpowiedź 1', 'Odpowiedź 2', 'Odpowiedź 3'],
+    ['Odpowiedź 1', 'Odpowiedź 2'],
+    ['Odpowiedź 1', 'Odpowiedź 2']
+  ]
+  
+  private questionsSubs!: Subscription
 
   currentQuestionIndex: number = 0;
 
+
+  constructor(private router: Router, private questionService: QuestionService) {}
+
+  
+  ngOnInit(): void {
+    this.questionService.getQuestions();
+    this.questionsSubs = this.questionService.getQuestionUpdateListener().subscribe({
+      next: questionData => {
+        this.questions = questionData.questions
+      }
+    })
+  }
+  
+
   nextQuestion(answer: string) {
     if (this.currentQuestionIndex < this.questions.length - 1) {
-      this.answerService.sendAnswer(answer).subscribe(response => {
+      this.questionService.sendAnswer(answer).subscribe(response => {
         console.log('Zapisano: ', response)
       })
       this.currentQuestionIndex++;
       console.log(this.currentQuestionIndex + " " + this.questions.length)
     } else {
-      this.answerService.sendAnswer(answer).subscribe(response => {
+      this.questionService.sendAnswer(answer).subscribe(response => {
         console.log('Zapisano: ', response)
       })
       this.currentQuestionIndex++;

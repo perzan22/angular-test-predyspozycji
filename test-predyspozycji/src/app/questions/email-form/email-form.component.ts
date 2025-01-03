@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AnswerService } from '../answer.service';
+import { QuestionService } from '../questions.service';
 
 @Component({
   selector: 'app-email-form',
@@ -10,11 +10,11 @@ export class EmailFormComponent {
 
   results: any
 
-  constructor(private answerService: AnswerService) {}
+  constructor(private questionService: QuestionService) {}
 
   getResults() {
     console.log('Działa')
-    this.answerService.getResults().subscribe(response => {
+    this.questionService.getResults().subscribe(response => {
       this.results = response.answers
     })
   }
