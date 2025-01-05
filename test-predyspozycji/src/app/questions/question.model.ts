@@ -1,5 +1,5 @@
 export interface Question {
-    id: number
+    id_pytania: number
     tresc: string
     instrukcja: string
     ilosc_odpowiedzi: number

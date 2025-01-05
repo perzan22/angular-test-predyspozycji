@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { QuestionService } from '../../questions/questions.service';
 
 @Component({
   selector: 'app-main-page',
@@ -8,10 +9,10 @@ import { Router } from '@angular/router';
 })
 export class MainPageComponent {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private questionService: QuestionService) {}
 
   startTest() {
     this.router.navigate(['/test'])
+    this.questionService.resetAnswers();
   }
-
 }

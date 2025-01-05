@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { QuestionService } from '../questions.service';
 import { Subscription } from 'rxjs';
 import { Question } from '../question.model';
+import { Answer } from '../answer.model';
 
 
 @Component({
@@ -13,13 +14,11 @@ import { Question } from '../question.model';
 export class SelectQuestionComponent implements OnInit {
   questions: Question[] = []
 
-  answers = [
-    ['Odpowiedź 1', 'Odpowiedź 2', 'Odpowiedź 3'],
-    ['Odpowiedź 1', 'Odpowiedź 2'],
-    ['Odpowiedź 1', 'Odpowiedź 2']
-  ]
+  answers: Answer[] = []
   
   private questionsSubs!: Subscription
+  private answersSubs!: Subscription
+
 
   currentQuestionIndex: number = 0;
 
@@ -32,6 +31,12 @@ export class SelectQuestionComponent implements OnInit {
     this.questionsSubs = this.questionService.getQuestionUpdateListener().subscribe({
       next: questionData => {
         this.questions = questionData.questions
+        this.questionService.getAnswers(this.questions[this.currentQuestionIndex].id_pytania);
+        this.answersSubs = this.questionService.getAnswerUpdateListener().subscribe({
+          next: answerData => {
+            this.answers = answerData.answers
+          }
+        })
       }
     })
   }
@@ -43,6 +48,12 @@ export class SelectQuestionComponent implements OnInit {
         console.log('Zapisano: ', response)
       })
       this.currentQuestionIndex++;
+      this.questionService.getAnswers(this.questions[this.currentQuestionIndex].id_pytania);
+      this.answersSubs = this.questionService.getAnswerUpdateListener().subscribe({
+        next: answerData => {
+          this.answers = answerData.answers
+        }
+      })
       console.log(this.currentQuestionIndex + " " + this.questions.length)
     } else {
       this.questionService.sendAnswer(answer).subscribe(response => {
