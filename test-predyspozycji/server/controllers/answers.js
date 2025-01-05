@@ -1,21 +1,17 @@
 const db = require('../db')
+const { addAnswer, getAnswers, resetAnswers } = require('../store/answersStore')
 
 let answers = [];
 
 exports.saveAnswers = (req, res, next) => {
     const { answer } = req.body
     if (answer) {
-        answers.push(answer);
-        console.log(answers)
+        addAnswer(answer.wartosc_punktowa);
+        console.log(getAnswers())
         res.status(200).json({ message: 'Odpowiedź zapisana', answer: answer })
     } else {
         res.status(400).json({ message: 'Brak odpowiedzi' })
     }
-}
-
-exports.getResults = (req, res, next) => {
-    console.log(answers)
-    res.status(200).json({ answers: answers })
 }
 
 exports.getAnswers = async (req, res, next) => {
@@ -35,7 +31,7 @@ exports.getAnswers = async (req, res, next) => {
 }
 
 exports.resetAnswers = (req, res, next) => {
-    answers = []
+    resetAnswers();
     res.status(200).json({
         message: 'Odpoweidzi wyzerowane.'
     })

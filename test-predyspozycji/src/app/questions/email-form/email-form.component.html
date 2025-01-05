@@ -33,9 +33,6 @@
         </form>
     </mat-card-content>
 </mat-card>
-<div *ngIf="results">
-    <h2>Wyniki</h2>
-    <ul>
-      <li *ngFor="let answer of results">{{ answer }}</li>
-    </ul>
+<div *ngIf="kierunek">
+    <h2>{{ kierunek }}</h2>
   </div>

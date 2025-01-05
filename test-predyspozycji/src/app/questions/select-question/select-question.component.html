@@ -6,7 +6,7 @@
     <mat-divider></mat-divider>
     <mat-card-content>
         <section class="answers-panel">
-            <div class="answer" *ngFor="let answer of answers; let i = index" (click)="nextQuestion(answer.tresc)">
+            <div class="answer" *ngFor="let answer of answers; let i = index" (click)="nextQuestion(answer)">
                 <h1>{{ getLetter(i) }}</h1><p>{{ answer.tresc }}</p>
             </div>
         </section>

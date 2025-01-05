@@ -17,12 +17,12 @@ export class QuestionService {
 
   constructor(private http: HttpClient) { }
 
-  sendAnswer(answer: string): Observable<any> {
+  sendAnswer(answer: Answer): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/save`, { answer });
   }
 
   getResults(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/results`)
+    return this.http.get<{ kierunek: string }>(`http://localhost:3000/api/results/`)
   }
 
   getQuestions() {

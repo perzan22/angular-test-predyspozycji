@@ -8,14 +8,14 @@ import { QuestionService } from '../questions.service';
 })
 export class EmailFormComponent {
 
-  results: any
+  kierunek!: string
 
   constructor(private questionService: QuestionService) {}
 
   getResults() {
     console.log('Działa')
     this.questionService.getResults().subscribe(response => {
-      this.results = response.answers
+      this.kierunek = response.kierunek
     })
   }
 

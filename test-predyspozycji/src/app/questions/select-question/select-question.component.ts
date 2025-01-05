@@ -42,7 +42,7 @@ export class SelectQuestionComponent implements OnInit {
   }
   
 
-  nextQuestion(answer: string) {
+  nextQuestion(answer: Answer) {
     if (this.currentQuestionIndex < this.questions.length - 1) {
       this.questionService.sendAnswer(answer).subscribe(response => {
         console.log('Zapisano: ', response)
