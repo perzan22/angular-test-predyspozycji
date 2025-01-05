@@ -7,6 +7,7 @@ import { MatToolbarModule } from "@angular/material/toolbar"
 import { MatDividerModule } from "@angular/material/divider"
 import { MatProgressBarModule } from "@angular/material/progress-bar"
 import { MatCheckboxModule } from "@angular/material/checkbox"
+import { MatIconModule } from '@angular/material/icon'
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { MatCheckboxModule } from "@angular/material/checkbox"
         MatToolbarModule,
         MatDividerModule,
         MatProgressBarModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatIconModule
     ],
 
     providers: [

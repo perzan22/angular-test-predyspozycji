@@ -35,6 +35,15 @@ export class QuestionService {
     })
   }
 
+  getAllAnswers() {
+    this.http.get<{ answers: any, message: string }>(`${this.apiUrl}/all/`).subscribe({
+      next: fetchedAnswers => {
+        this.answers = fetchedAnswers.answers;
+        this.answerSubs.next({ answers: [...this.answers] })
+      }
+    })
+  }
+
   getAnswers(id_pytania: number) {
     this.http.get<{ answers: any, message: string }>(`${this.apiUrl}?id_pytania=${id_pytania}`).subscribe({
       next: fetchedAnswers => {

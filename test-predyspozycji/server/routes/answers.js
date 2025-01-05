@@ -10,4 +10,6 @@ router.get('', AnswersControllers.getAnswers)
 
 router.get('/reset', AnswersControllers.resetAnswers)
 
+router.get('/all', AnswersControllers.getAllAnswers)
+
 module.exports = router

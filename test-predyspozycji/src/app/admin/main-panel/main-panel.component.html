@@ -1,0 +1,35 @@
+<mat-card appearance="outlined">
+    <mat-card-header>
+        <mat-card-title>Panel administracyjny testu predyspozycji AMW</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+        <section class="menu">
+            <ul>
+                <li (click)="changeView('pytania')">Pytania</li>
+                <li (click)="changeView('kierunki')">Kierunki</li>
+                <li (click)="changeView('kandydaci')">Kandydaci</li>
+                <li (click)="changeView('ustawienia')">Ustawienia konta</li>
+            </ul>
+        </section>
+        <section class="view">
+            <div *ngIf="selected === 'pytania'" class="container">
+                <h1>Pytania i odpowiedzi</h1>
+                <div class="questions">
+                    <div *ngFor="let question of questions; let i = index;" class="question">
+                        <div class="question-content">{{ i+1 }}. {{ question.tresc }}</div>
+                        <div class="question-buttons"><mat-icon>delete</mat-icon><mat-icon>edit</mat-icon></div>
+                    </div>
+                    <div class="question-new"><mat-icon>add</mat-icon></div>
+                </div>
+                
+            </div>
+
+
+        </section>
+    </mat-card-content>
+    <mat-divider></mat-divider>
+    <mat-card-actions>
+        <a>Wyloguj</a><a>Strona główna</a>
+    </mat-card-actions>
+</mat-card>

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,15 @@ import { Component } from '@angular/core';
   styleUrl: './app.component.sass'
 })
 export class AppComponent {
-  title = 'test-predyspozycji';
+  title = 'Test predyspozycji';
+
+  constructor(private router: Router) {}
+
+  isAdminPage(): boolean {
+    return this.router.url.includes('/admin')
+  }
+
+  getLayoutClass(): string {
+    return this.router.url.includes('/admin') ? 'admin-layout' : 'main-layout'
+  }
 }

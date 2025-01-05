@@ -11,6 +11,8 @@ import { FooterComponent } from './footer/footer/footer.component';
 import { SelectQuestionComponent } from './questions/select-question/select-question.component';
 import { EmailFormComponent } from './questions/email-form/email-form.component';
 import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './admin/auth/login/login.component';
+import { MainPanelComponent } from './admin/main-panel/main-panel.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { HttpClientModule } from '@angular/common/http';
     HeaderComponent,
     FooterComponent,
     SelectQuestionComponent,
-    EmailFormComponent
+    EmailFormComponent,
+    LoginComponent,
+    MainPanelComponent
   ],
   imports: [
     BrowserModule,

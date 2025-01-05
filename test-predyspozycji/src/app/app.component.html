@@ -1,5 +1,5 @@
-<app-header></app-header>
-<main>
+<app-header *ngIf="!isAdminPage()"></app-header>
+<main [ngClass]="getLayoutClass()">
   <router-outlet></router-outlet>
 </main>
-<app-footer></app-footer>
+<app-footer *ngIf="!isAdminPage()"></app-footer>
