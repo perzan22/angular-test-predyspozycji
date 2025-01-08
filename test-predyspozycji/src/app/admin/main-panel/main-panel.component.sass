@@ -1,6 +1,6 @@
 mat-card
-    position: absolute
-    height: 70%
+    position: relative
+    height: 70vh
     width: 70%
     top: 50px
     left: 50%
@@ -18,11 +18,17 @@ mat-card
     mat-card-content
         height: 100%
         display: flex
+        flex-direction: row
+        position: relative
+        overflow: hidden
         
 
         .view
             width: 85%
             margin: 10px 10px
+            position: relative
+            overflow-y: auto
+
             h1
                 text-align: center
 
@@ -42,6 +48,10 @@ mat-card
                 li
                     font-size: 20px
 
+                    a
+                        text-decoration: none
+                        color: inherit
+
                 li:hover
                     cursor: pointer
                     color: #131936
@@ -49,44 +59,5 @@ mat-card
     mat-card-actions
         display: flex
         justify-content: end
+        gap: 10px
 
-.container
-    height: 100%
-
-    .questions
-        display: flex
-        flex-direction: column
-        justify-content: start
-        height: 100%
-        font-size: 20px
-
-        .question
-            padding: 20px
-            margin: 10px 0
-            border: 2px solid grey
-            display: flex
-            .question-content
-                width: 50%
-            .question-buttons
-                width: 50%
-                display: flex
-                justify-content: end
-                color: #EBB42E
-                
-                mat-icon:hover
-                    cursor: pointer
-
-        .question:hover
-            background-color: #e4eaf0
-
-        .question-new
-            padding: 20px
-            margin: 10px 0
-            border: 2px solid grey
-            display: flex
-            justify-content: center
-            color: #EBB42E
-
-        .question-new:hover
-            background-color: #e4eaf0
-            cursor: pointer

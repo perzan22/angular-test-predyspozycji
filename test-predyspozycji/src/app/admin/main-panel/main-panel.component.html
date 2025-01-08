@@ -6,30 +6,18 @@
     <mat-card-content>
         <section class="menu">
             <ul>
-                <li (click)="changeView('pytania')">Pytania</li>
-                <li (click)="changeView('kierunki')">Kierunki</li>
-                <li (click)="changeView('kandydaci')">Kandydaci</li>
-                <li (click)="changeView('ustawienia')">Ustawienia konta</li>
+                <li><a [routerLink]="['/admin/pytania']" routerLinkActive="active">Pytania</a></li>
+                <li><a [routerLink]="['/admin/kierunki']" routerLinkActive="active">Kierunki</a></li>
+                <li>Kandydaci</li>
+                <li>Ustawienia konta</li>
             </ul>
         </section>
         <section class="view">
-            <div *ngIf="selected === 'pytania'" class="container">
-                <h1>Pytania i odpowiedzi</h1>
-                <div class="questions">
-                    <div *ngFor="let question of questions; let i = index;" class="question">
-                        <div class="question-content">{{ i+1 }}. {{ question.tresc }}</div>
-                        <div class="question-buttons"><mat-icon>delete</mat-icon><mat-icon>edit</mat-icon></div>
-                    </div>
-                    <div class="question-new"><mat-icon>add</mat-icon></div>
-                </div>
-                
-            </div>
-
-
+            <router-outlet></router-outlet>
         </section>
     </mat-card-content>
     <mat-divider></mat-divider>
     <mat-card-actions>
-        <a>Wyloguj</a><a>Strona główna</a>
+        <a>Wyloguj</a><a href="/">Strona główna</a>
     </mat-card-actions>
 </mat-card>

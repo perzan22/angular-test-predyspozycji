@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,6 +14,10 @@ import { EmailFormComponent } from './questions/email-form/email-form.component'
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './admin/auth/login/login.component';
 import { MainPanelComponent } from './admin/main-panel/main-panel.component';
+import { QuestionSelectComponent } from './admin/questions/question-select/question-select.component';
+import { QuestionFormComponent } from './admin/questions/question-form/question-form.component';
+import { StudyFieldsSelectComponent } from './admin/study-fields/study-fields-select/study-fields-select.component';
+import { StudyFieldsFormComponent } from './admin/study-fields/study-fields-form/study-fields-form.component';
 
 @NgModule({
   declarations: [
@@ -23,13 +28,18 @@ import { MainPanelComponent } from './admin/main-panel/main-panel.component';
     SelectQuestionComponent,
     EmailFormComponent,
     LoginComponent,
-    MainPanelComponent
+    MainPanelComponent,
+    QuestionSelectComponent,
+    QuestionFormComponent,
+    StudyFieldsSelectComponent,
+    StudyFieldsFormComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AngularMaterialModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [
     provideAnimationsAsync()

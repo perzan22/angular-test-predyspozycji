@@ -15,9 +15,10 @@ exports.saveAnswers = (req, res, next) => {
 }
 
 exports.getAnswers = async (req, res, next) => {
-    console.log(id_pytania)
-    const query = `SELECT * FROM odpowiedz WHERE id_pytania = ${id_pytania}`;
-    const result = await db.query(query);
+    const id_pytania = req.query.id_pytania
+    const query = `SELECT * FROM odpowiedz WHERE id_pytania = $1`;
+    const values = [id_pytania]
+    const result = await db.query(query, values);
     if (result) {
         res.status(200).json({
             answers: result.rows,

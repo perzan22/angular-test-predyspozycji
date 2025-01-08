@@ -35,6 +35,10 @@ export class QuestionService {
     })
   }
 
+  getQuestion(id_pytania: number) {
+    return this.http.get<{ id_pytania: number, tresc: string, instrukcja: string, ilosc_odpowiedzi: number, id_typu: number }>(`http://localhost:3000/api/questions/edit?id_pytania=${id_pytania}`)
+  }
+
   getAllAnswers() {
     this.http.get<{ answers: any, message: string }>(`${this.apiUrl}/all/`).subscribe({
       next: fetchedAnswers => {
