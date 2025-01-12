@@ -47,7 +47,7 @@ exports.editQuestion = async (req, res, next) => {
     try {
         const result = await db.query(query, values);
         res.status(201).json({
-            message: 'Pytanie edytowany pomyślnie!',
+            message: 'Pytanie edytowane pomyślnie!',
             question: result.rows[0],
         });
     } catch (error) {

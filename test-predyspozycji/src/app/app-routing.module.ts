@@ -8,6 +8,7 @@ import { QuestionSelectComponent } from './admin/questions/question-select/quest
 import { QuestionFormComponent } from './admin/questions/question-form/question-form.component';
 import { StudyFieldsSelectComponent } from './admin/study-fields/study-fields-select/study-fields-select.component';
 import { StudyFieldsFormComponent } from './admin/study-fields/study-fields-form/study-fields-form.component';
+import { CandidatesListComponent } from './admin/candidates/candidates-list/candidates-list.component';
 
 const routes: Routes = [
   { path: '', component: MainPageComponent },
@@ -24,6 +25,7 @@ const routes: Routes = [
       { path: 'kierunki', component: StudyFieldsSelectComponent },
       { path: 'kierunki/form/:id', component: StudyFieldsFormComponent },
       { path: 'kierunki/form', component: StudyFieldsFormComponent },
+      { path: 'kandydaci', component: CandidatesListComponent }
     ]
   }
 ];

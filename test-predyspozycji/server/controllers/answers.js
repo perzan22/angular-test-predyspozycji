@@ -1,13 +1,12 @@
 const db = require('../db')
-const { addAnswer, getAnswers, resetAnswers } = require('../store/answersStore')
+const { addAnswer, resetAnswers } = require('../store/answersStore')
 
 let answers = [];
 
 exports.saveAnswers = (req, res, next) => {
     const { answer } = req.body
     if (answer) {
-        addAnswer(answer.ilosc_odpowiedzi);
-        console.log(getAnswers())
+        addAnswer(answer.wartosc_punktowa);
         res.status(200).json({ message: 'Odpowiedź zapisana', answer: answer })
     } else {
         res.status(400).json({ message: 'Brak odpowiedzi' })

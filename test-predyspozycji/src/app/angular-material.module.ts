@@ -9,6 +9,8 @@ import { MatProgressBarModule } from "@angular/material/progress-bar"
 import { MatCheckboxModule } from "@angular/material/checkbox"
 import { MatIconModule } from '@angular/material/icon'
 import { MatSelectModule } from "@angular/material/select"
+import { MatTooltipModule } from '@angular/material/tooltip'
+import { MatTableModule } from '@angular/material/table'
 
 
 @NgModule({
@@ -21,7 +23,9 @@ import { MatSelectModule } from "@angular/material/select"
         MatProgressBarModule,
         MatCheckboxModule,
         MatIconModule,
-        MatSelectModule
+        MatSelectModule,
+        MatTooltipModule,
+        MatTableModule
     ],
 
     providers: [

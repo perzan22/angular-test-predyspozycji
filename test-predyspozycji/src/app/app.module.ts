@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -18,6 +19,7 @@ import { QuestionSelectComponent } from './admin/questions/question-select/quest
 import { QuestionFormComponent } from './admin/questions/question-form/question-form.component';
 import { StudyFieldsSelectComponent } from './admin/study-fields/study-fields-select/study-fields-select.component';
 import { StudyFieldsFormComponent } from './admin/study-fields/study-fields-form/study-fields-form.component';
+import { CandidatesListComponent } from './admin/candidates/candidates-list/candidates-list.component';
 
 @NgModule({
   declarations: [
@@ -32,14 +34,16 @@ import { StudyFieldsFormComponent } from './admin/study-fields/study-fields-form
     QuestionSelectComponent,
     QuestionFormComponent,
     StudyFieldsSelectComponent,
-    StudyFieldsFormComponent
+    StudyFieldsFormComponent,
+    CandidatesListComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AngularMaterialModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule
   ],
   providers: [
     provideAnimationsAsync()

@@ -29,13 +29,13 @@
                         <mat-label>Treść odpowiedzi</mat-label>
                         <input matInput formControlName="tresc_odpowiedzi">
                     </mat-form-field>
-                    <div class="icons"><mat-icon (click)="editAnswer(answer.getRawValue())">check</mat-icon><mat-icon (click)="onDeleteAnswer(answer.getRawValue().id_odpowiedzi)">delete</mat-icon></div>
+                    <div class="icons"><mat-icon matTooltip="Zatwierdź zmiany" (click)="editAnswer(answer.getRawValue())">check</mat-icon><mat-icon matTooltip="Usuń odpowiedź" (click)="onDeleteAnswer(answer.getRawValue().id_odpowiedzi)">delete</mat-icon></div>
                     <mat-form-field appearance="outline" floatLabel="always" class="answer-field">
                         <mat-label>Wartość</mat-label>
                         <input type="number" matInput formControlName="wartosc">
                     </mat-form-field>
                 </div>
-                <div class="answer-new" (click)="addAnswer()"><mat-icon>add</mat-icon></div>
+                <div matTooltip="Dodaj nową odpowiedź" class="answer-new" (click)="addAnswer()"><mat-icon>add</mat-icon></div>
             </div>
             <button mat-raised-button *ngIf="mode == 'create'" type="submit" color="accent">Dodaj pytanie</button>
         </form>

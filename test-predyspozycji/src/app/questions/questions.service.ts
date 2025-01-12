@@ -24,10 +24,6 @@ export class QuestionService {
     return this.http.post<any>(`${this.answerApiUrl}/save`, { answer });
   }
 
-  getResults(): Observable<any> {
-    return this.http.get<{ kierunek: string }>(`http://localhost:3000/api/results/`)
-  }
-
   getQuestions() {
     this.http.get<{ questions: any, message: string }>(`http://localhost:3000/api/questions/`).subscribe({
       next: fetchedQuestions => {

@@ -6,33 +6,33 @@
     </mat-card-header>
     <mat-card-content>
         <h3>Aby poznać wynik wypełnij formularz</h3>
-        <form>
+        <form [formGroup]="form" (submit)="getResults()">
             <mat-form-field appearance="outline" floatLabel="always">
                 <mat-label>Imię</mat-label>
-                <input matInput placeholder="np. Jan">
+                <input matInput placeholder="np. Jan" formControlName="imie">
             </mat-form-field>
             <mat-form-field appearance="outline" floatLabel="always">
                 <mat-label>Nazwisko</mat-label>
-                <input matInput placeholder="np. Nowak">
+                <input matInput placeholder="np. Nowak" formControlName="nazwisko">
             </mat-form-field>
             <mat-form-field appearance="outline" floatLabel="always">
                 <mat-label>Email</mat-label>
-                <input matInput type="email" placeholder="np. jannowak@poczta.pl">
+                <input matInput type="email" placeholder="np. jannowak@poczta.pl" formControlName="email">
             </mat-form-field>
             <mat-form-field appearance="outline" floatLabel="always">
                 <mat-label>Miasto</mat-label>
-                <input matInput placeholder="np. Gdynia">
+                <input matInput placeholder="np. Gdynia" formControlName="miasto">
             </mat-form-field>
             <section class="buttons">
                 <section class="checkboxes">
-                    <mat-checkbox class="custom-checkbox">*Przeczytałem i akceptuję warunki przetwarzania danych osobowych oraz pozostałe zgody.</mat-checkbox>
-                    <mat-checkbox class="custom-checkbox">*Wyrażam dobrowolną zgodę na otrzymywanie drogą elektroniczną materiałów marketingowo-informacyjnych od Akademii Marynarki Wojennej im. Bohaterów Westerplatte, ul. Śmidowicza 69, 81-127 Gdynia, na wskazany w formularzu adres poczty elektornicznej.</mat-checkbox>
+                    <mat-checkbox class="custom-checkbox" formControlName="zgoda-przetwarzania">*Przeczytałem i akceptuję warunki przetwarzania danych osobowych oraz pozostałe zgody.</mat-checkbox>
+                    <mat-checkbox class="custom-checkbox" formControlName="zgoda-marketing">*Wyrażam dobrowolną zgodę na otrzymywanie drogą elektroniczną materiałów marketingowo-informacyjnych od Akademii Marynarki Wojennej im. Bohaterów Westerplatte, ul. Śmidowicza 69, 81-127 Gdynia, na wskazany w formularzu adres poczty elektornicznej.</mat-checkbox>
                 </section>
-                <button mat-flat-button type="button" color="accent" class="result-btn" (click)="getResults()">Poznaj wynik!</button>
+                <button mat-flat-button type="submit" color="accent" class="result-btn">Poznaj wynik!</button>
             </section>
         </form>
     </mat-card-content>
 </mat-card>
 <div *ngIf="kierunek">
     <h2>{{ kierunek }}</h2>
-  </div>
+</div>

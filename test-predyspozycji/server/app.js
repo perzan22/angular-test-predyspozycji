@@ -7,6 +7,7 @@ const answersRoutes = require('./routes/answers')
 const questionsRoutes = require('./routes/questions')
 const resultsRoutes = require('./routes/result')
 const studyFieldsRoutes = require('./routes/study-fields')
+const candidatesRoutes = require('./routes/candidates')
 
 const app = express();
 
@@ -19,5 +20,6 @@ app.use('/api/answers/', answersRoutes)
 app.use('/api/questions/', questionsRoutes)
 app.use('/api/results/', resultsRoutes)
 app.use('/api/study-fields/', studyFieldsRoutes)
+app.use('/api/candidates/', candidatesRoutes)
 
 module.exports = app;

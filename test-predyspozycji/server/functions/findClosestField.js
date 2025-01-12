@@ -3,10 +3,10 @@ function findClosestField(average, fields) {
         const difference = Math.abs(field.wartosc_punktowa - average)
         console.log(difference, closest.difference)
         if (difference < closest.difference) {
-            return { nazwa: field.nazwa, difference }
+            return { id_kierunku: field.id_kierunku, difference }
         }
         return closest;
-    }, { nazwa: null, difference: Infinity }).nazwa
+    }, { id_kierunku: null, difference: Infinity }).id_kierunku
 };
 
 module.exports = findClosestField;
