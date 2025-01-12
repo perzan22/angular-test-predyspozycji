@@ -105,6 +105,42 @@ export class QuestionService {
     })
   }
 
+  addNewAnswer(tresc: string, wartosc_punktowa: number, id_pytania: number) {
+    const answerData = {
+        tresc: tresc,
+        wartosc_punktowa: wartosc_punktowa,
+        id_pytania: id_pytania
+      }
+      
+  
+      this.http.post<{ answer: Answer, message: string }>(`${this.answerApiUrl}`, answerData).subscribe({
+        next: createdAnswer => {
+          console.log(createdAnswer.answer);
+        },
+        error: error => {
+          console.log(error.message)
+        }
+      })
+  }
+
+  deleteAnswer(id_pytania: number, id_odpowiedzi: number) {
+    return this.http.delete<{ answer: Answer, message: string }>(`${this.answerApiUrl}?id_odpowiedzi=${id_odpowiedzi}&id_pytania=${id_pytania}`);
+  }
+
+  addQuestion(tresc: string, instrukcja: string, typ_pytania: number) {
+    const questionData = {
+      tresc: tresc,
+      instrukcja: instrukcja,
+      typ_pytania: typ_pytania
+    }
+
+    return this.http.post<{ id_pytania: number }>(`${this.questionApiUrl}`, questionData)
+  }
+
+  deleteQuestion(id_pytania: number) {
+    return this.http.delete<{ question: Question, message: string }>(`${ this.questionApiUrl}?id_pytania=${id_pytania}`);
+  }
+
   getQuestionUpdateListener() {
     return this.questionSubs.asObservable()
   }

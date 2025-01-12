@@ -14,4 +14,8 @@ router.get('/all', AnswersControllers.getAllAnswers)
 
 router.patch('', AnswersControllers.editAnswer)
 
+router.post('', AnswersControllers.addNewAnswer)
+
+router.delete('', AnswersControllers.deleteAnswer)
+
 module.exports = router

@@ -2,7 +2,7 @@ const db = require('../db')
 
 
 exports.getQuestions = async (req, res, next) => {
-    const query = `SELECT * FROM pytanie`;
+    const query = `SELECT * FROM pytanie ORDER BY id_pytania`;
     const result = await db.query(query);
     if (result) {
         res.status(200).json({
@@ -54,4 +54,65 @@ exports.editQuestion = async (req, res, next) => {
         console.error('Błąd podczas edytowania pytania:', error);
         res.status(500).json({ error: 'Błąd serwera' });
     }
+}
+
+exports.addQuestion = async (req, res, next) => {
+
+    const { tresc, instrukcja, typ_pytania } = req.body;
+
+    const query = `INSERT INTO pytanie (tresc, instrukcja, id_typu, ilosc_odpowiedzi) VALUES ($1, $2, $3, $4) RETURNING id_pytania`
+    const values = [tresc, instrukcja, typ_pytania, 0]
+
+    try {
+
+        const result = await db.query(query, values);
+        res.status(201).json({
+            id_pytania: result.rows[0].id_pytania
+        })
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ error: 'Błąd podczas dodawania pytania.' });
+    }
+
+}
+
+exports.deleteQuestion = async (req, res, next) => {
+
+    const questionID = req.query.id_pytania
+
+    const transaction = await db.connect()
+
+    try {
+
+        await transaction.query(`BEGIN`);
+
+        const answerQuery = `DELETE FROM odpowiedz WHERE id_pytania = $1`;
+        const values = [questionID]
+
+        await transaction.query(answerQuery, values);
+
+        const questionQuery = `DELETE FROM pytanie WHERE id_pytania = $1`;
+        
+        const questionResult = await transaction.query(questionQuery, values);
+
+        await transaction.query(`COMMIT`)
+
+        res.status(201).json({
+            message: 'Pytanie usunięte pomyślnie!',
+            question: questionResult.rows[0]
+        })
+
+    } catch (error) {
+
+        await transaction.query(`ROLLBACK`);
+        console.error('Błąd podczas usuwania pytania:', error);
+        res.status(500).json({ error: 'Błąd serwera' });
+
+    } finally {
+
+        transaction.release();
+
+    }
+
 }

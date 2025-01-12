@@ -93,6 +93,8 @@ export class QuestionFormComponent implements OnInit {
   onSubmit() {
     if (this.mode == 'edit') {
       this.editQuestion()
+    } else {
+      this.addQuestion()
     }
   }
 
@@ -110,9 +112,47 @@ export class QuestionFormComponent implements OnInit {
       return
     }
 
-    if (this.questionID) {
+    if (this.questionID && answer.id_odpowiedzi) {
       this.questionService.editAnswer(answer.tresc_odpowiedzi, answer.wartosc, +this.questionID, answer.id_odpowiedzi);
+    } else if (this.questionID && !answer.id_odpowiedzi) {
+      this.questionService.addNewAnswer(answer.tresc_odpowiedzi, answer.wartosc, +this.questionID)
     }
+  }
+
+  onDeleteAnswer(answerID: number) {
+    if (this.questionID && answerID) {
+      this.questionService.deleteAnswer(+this.questionID, answerID).subscribe({
+        next: () => {
+          this.answers = this.answers.filter(answer => answer.id_odpowiedzi !== answerID);
+          this.odpowiedzi.removeAt(this.odpowiedzi.length - 1);
+        },
+        error: error => {
+          console.error(error.message)
+        }
+      })
+    } else {
+      this.odpowiedzi.removeAt(this.odpowiedzi.length - 1);
+    }
+  }
+
+  addQuestion() {
+
+    if (this.odpowiedzi.length >= 2) {
+      this.questionService.addQuestion(this.form.value.tresc_pytania, this.form.value.instrukcja, this.form.value.typ_pytania).subscribe({
+        next: id_pytania => {
+          const odpowiedzi = this.odpowiedzi.value.map((odp: any) => ({
+            ...odp,
+            id_pytania
+          }));
+          console.log(odpowiedzi)
+
+          for (let odpowiedz of odpowiedzi) {
+            this.questionService.addNewAnswer(odpowiedz.tresc_odpowiedzi, odpowiedz.wartosc, odpowiedz.id_pytania.id_pytania);
+          }
+        }
+      })
+    }
+    
   }
 
 }

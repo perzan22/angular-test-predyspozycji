@@ -29,7 +29,7 @@
                         <mat-label>Treść odpowiedzi</mat-label>
                         <input matInput formControlName="tresc_odpowiedzi">
                     </mat-form-field>
-                    <div class="icons"><mat-icon (click)="editAnswer(answer.getRawValue())">check</mat-icon><mat-icon>delete</mat-icon></div>
+                    <div class="icons"><mat-icon (click)="editAnswer(answer.getRawValue())">check</mat-icon><mat-icon (click)="onDeleteAnswer(answer.getRawValue().id_odpowiedzi)">delete</mat-icon></div>
                     <mat-form-field appearance="outline" floatLabel="always" class="answer-field">
                         <mat-label>Wartość</mat-label>
                         <input type="number" matInput formControlName="wartosc">

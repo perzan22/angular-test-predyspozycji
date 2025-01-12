@@ -10,4 +10,8 @@ router.get('/edit', QuestionsControllers.getQuestion)
 
 router.patch('', QuestionsControllers.editQuestion)
 
+router.post('', QuestionsControllers.addQuestion)
+
+router.delete('', QuestionsControllers.deleteQuestion)
+
 module.exports = router

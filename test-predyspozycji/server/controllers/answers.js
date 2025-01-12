@@ -72,3 +72,77 @@ exports.editAnswer = async (req, res, next) => {
         res.status(500).json({ error: 'Błąd serwera' });
     }
 }
+
+exports.addNewAnswer = async (req, res, next) => {
+    const answer = {
+        tresc: req.body.tresc,
+        id_pytania: req.body.id_pytania,
+        wartosc_punktowa: +req.body.wartosc_punktowa
+    };
+
+    const transaction = await db.connect()
+
+    try {
+
+        await transaction.query('BEGIN');
+        const addAnswerQuery = `INSERT INTO odpowiedz (tresc, id_pytania, wartosc_punktowa) VALUES ($1, $2, $3)`;
+        const answerValues = [answer.tresc, answer.id_pytania, answer.wartosc_punktowa];
+
+        const answerResult = await transaction.query(addAnswerQuery, answerValues);
+
+        const updateQuestionQuery = `UPDATE pytanie SET ilosc_odpowiedzi = ilosc_odpowiedzi + 1 WHERE id_pytania = $1`;
+        const questionValues = [answer.id_pytania];
+
+        await transaction.query(updateQuestionQuery, questionValues);
+
+        await transaction.query(`COMMIT`);
+
+        res.status(201).json({
+            message: 'Odpowiedź dodana pomyślnie!',
+            answer: answerResult.rows[0]
+        });
+
+    } catch (error) {
+        await transaction.query(`ROLLBACK`);
+        console.error('Błąd podczas dodawania odpowiedzi:', error);
+        res.status(500).json({ error: 'Błąd serwera' });
+    } finally {
+        transaction.release();
+    }
+
+}
+
+exports.deleteAnswer = async (req, res, next) => {
+    const answerID = req.query.id_odpowiedzi
+    const questionID = req.query.id_pytania
+
+    const transaction = await db.connect()
+
+    try {
+
+        await transaction.query('BEGIN');
+        const deleteAnswerQuery = `DELETE FROM odpowiedz WHERE id_odpowiedzi = $1`;
+        const answerValues = [answerID];
+
+        const answerResult = await transaction.query(deleteAnswerQuery, answerValues);
+
+        const updateQuestionQuery = `UPDATE pytanie SET ilosc_odpowiedzi = ilosc_odpowiedzi - 1 WHERE id_pytania = $1`;
+        const questionValues = [questionID];
+
+        await transaction.query(updateQuestionQuery, questionValues);
+
+        await transaction.query(`COMMIT`);
+
+        res.status(201).json({
+            message: 'Odpowiedź usunięta pomyślnie!',
+            answer: answerResult.rows[0]
+        });
+
+    } catch (error) {
+        await transaction.query(`ROLLBACK`);
+        console.error('Błąd podczas usuwania odpowiedzi:', error);
+        res.status(500).json({ error: 'Błąd serwera' });
+    } finally {
+        transaction.release();
+    }
+}

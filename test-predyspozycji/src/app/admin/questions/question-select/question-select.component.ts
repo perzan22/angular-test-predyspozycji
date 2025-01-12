@@ -30,5 +30,16 @@ export class QuestionSelectComponent {
     })
   }
 
+  onDeleteQuestion(id_pytania: number) {
+    this.questionService.deleteQuestion(id_pytania).subscribe({
+      next: () => {
+        this.questions = this.questions.filter(question => question.id_pytania !== id_pytania)
+      },
+      error: error => {
+        console.error(error.message)
+      }
+    })
+  }
+
 
 }
