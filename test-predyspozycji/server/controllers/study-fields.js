@@ -66,11 +66,29 @@ exports.editStudyField = async (req, res, next) => {
     try {
         const result = await db.query(query, values);
         res.status(201).json({
-            message: 'Kierunek edutowany pomyślnie!',
+            message: 'Kierunek edytowany pomyślnie!',
             studyField: result.rows[0],
         });
     } catch (error) {
-        console.error('Błąd podczas dodawania kierunku:', error);
+        console.error('Błąd podczas edytowania kierunku:', error);
         res.status(500).json({ error: 'Błąd serwera' });
     }
 }
+
+exports.deleteStudyField = async (req, res, next) => {
+    const studyFieldID = req.query.id_kierunku
+
+    const query = `DELETE FROM kierunek WHERE id_kierunku = $1`;
+    const values = [studyFieldID]
+
+    try {
+        const result = await db.query(query, values);
+        res.status(201).json({
+            message: 'Kierunek usunięty pomyślnie!',
+            studyField: result.rows[0],
+        });
+    } catch (error) {
+        console.error('Błąd podczas usuwania kierunku:', error);
+        res.status(500).json({ error: 'Błąd serwera' });
+    }
+} 

@@ -12,4 +12,6 @@ router.post('', StudyFieldsControllers.addStudyField)
 
 router.patch('', StudyFieldsControllers.editStudyField)
 
+router.delete('', StudyFieldsControllers.deleteStudyField)
+
 module.exports = router

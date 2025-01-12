@@ -8,4 +8,6 @@ router.get('', QuestionsControllers.getQuestions)
 
 router.get('/edit', QuestionsControllers.getQuestion)
 
+router.patch('', QuestionsControllers.editQuestion)
+
 module.exports = router

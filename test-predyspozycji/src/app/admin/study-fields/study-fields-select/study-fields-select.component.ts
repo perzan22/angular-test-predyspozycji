@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { StudyField } from '../../../study-fields/study-field.model';
-import { Subscription } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
 import { StudyFieldsService } from '../../../study-fields/study-fields.service';
 
 @Component({
@@ -21,6 +21,17 @@ export class StudyFieldsSelectComponent {
     this.studyFieldsSubs = this.studyFieldsService.getStudyFieldsUpdateListener().subscribe({
       next: studyFieldsData => {
         this.studyFields = studyFieldsData.studyFields
+      }
+    })
+  }
+  
+  deleteStudyField(studyFieldID: number) {
+    this.studyFieldsService.deleteStudyField(studyFieldID).subscribe({
+      next: () => {
+        this.studyFields = this.studyFields.filter(field => field.id_kierunku !== studyFieldID)
+      },
+      error: error => {
+        console.error(error.message)
       }
     })
   }

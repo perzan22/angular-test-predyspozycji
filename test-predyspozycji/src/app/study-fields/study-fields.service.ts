@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { StudyField } from './study-field.model';
-import { Subject, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -19,7 +19,6 @@ export class StudyFieldsService {
       next: fetchedStudyFields => {
         this.studyFields = fetchedStudyFields.studyFields;
         this.studyFieldsSubs.next({ studyFields: [...this.studyFields] })
-        console.log(fetchedStudyFields.message)
       }
     })
   }
@@ -68,5 +67,9 @@ export class StudyFieldsService {
 
   getStudyFieldsUpdateListener() {
     return this.studyFieldsSubs.asObservable()
+  }
+
+  deleteStudyField(studyFieldID: number): Observable<any> {
+    return this.http.delete<{ studyField: StudyField, message: string }>(`http://localhost:3000/api/study-fields?id_kierunku=${studyFieldID}`)
   }
 }

@@ -12,4 +12,6 @@ router.get('/reset', AnswersControllers.resetAnswers)
 
 router.get('/all', AnswersControllers.getAllAnswers)
 
+router.patch('', AnswersControllers.editAnswer)
+
 module.exports = router

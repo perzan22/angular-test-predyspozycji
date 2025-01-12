@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { QuestionService } from '../../../questions/questions.service';
 import { Question } from '../../../questions/question.model';
@@ -59,8 +59,10 @@ export class QuestionFormComponent implements OnInit {
           this.questionService.getAnswers(+this.questionID)
           this.answerSubs = this.questionService.getAnswerUpdateListener().subscribe({
             next: answersData => {
+              this.answers = answersData.answers
               answersData.answers.forEach(answer => {
                 const answerGroup = new FormGroup({
+                  "id_odpowiedzi": new FormControl({ value: answer.id_odpowiedzi, disabled: true }),
                   "tresc_odpowiedzi": new FormControl(answer.tresc, [Validators.required, Validators.maxLength(60)]),
                   "wartosc": new FormControl(answer.wartosc_punktowa, [Validators.required])
                 });
@@ -77,12 +79,40 @@ export class QuestionFormComponent implements OnInit {
 
   addAnswer() {
     const answerGroup = new FormGroup({
+      "id_odpowiedzi": new FormControl(null),
       "tresc_odpowiedzi": new FormControl(null, [Validators.required, Validators.maxLength(60)]),
       "wartosc": new FormControl(null, [Validators.required])
     })
     this.odpowiedzi.push(answerGroup)
   }
 
+  sprawdz() {
+    console.log(this.odpowiedzi.controls)
+  }
 
+  onSubmit() {
+    if (this.mode == 'edit') {
+      this.editQuestion()
+    }
+  }
+
+  editQuestion() {
+    if (this.form.invalid) {
+      return
+    }
+    if (this.questionID) {
+      this.questionService.editQuestion(this.form.value.tresc_pytania, this.form.value.instrukcja, this.odpowiedzi.length, this.form.value.typ_pytania ,+this.questionID);
+    }
+  }
+
+  editAnswer(answer: any) {
+    if (this.form.invalid) {
+      return
+    }
+
+    if (this.questionID) {
+      this.questionService.editAnswer(answer.tresc_odpowiedzi, answer.wartosc, +this.questionID, answer.id_odpowiedzi);
+    }
+  }
 
 }
