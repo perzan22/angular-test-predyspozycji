@@ -9,7 +9,7 @@ import { Subject } from 'rxjs';
 export class CandidatesService {
 
   private apiURL = 'http://localhost:3000/api/candidates'
-  candidates: Candidate[] = []
+  private candidates: Candidate[] = []
   private candidatesSubs = new Subject<{ candidates: Candidate[] }>
 
   constructor(private http: HttpClient) { }

@@ -3,6 +3,7 @@ import { QuestionService } from '../../questions/questions.service';
 import { Question } from '../../questions/question.model';
 import { Answer } from '../../questions/answer.model';
 import { Subscription } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-main-panel',
@@ -10,5 +11,12 @@ import { Subscription } from 'rxjs';
   styleUrl: './main-panel.component.sass'
 })
 export class MainPanelComponent {
+
+
+  constructor(private authService: AuthService) {}
+
+  onLogout() {
+    this.authService.logout()
+  }
 
 }

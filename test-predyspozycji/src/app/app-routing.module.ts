@@ -9,6 +9,8 @@ import { QuestionFormComponent } from './admin/questions/question-form/question-
 import { StudyFieldsSelectComponent } from './admin/study-fields/study-fields-select/study-fields-select.component';
 import { StudyFieldsFormComponent } from './admin/study-fields/study-fields-form/study-fields-form.component';
 import { CandidatesListComponent } from './admin/candidates/candidates-list/candidates-list.component';
+import { LoginComponent } from './admin/auth/login/login.component';
+import { AuthGuard } from './admin/auth/guards/auth.guard';
 
 const routes: Routes = [
   { path: '', component: MainPageComponent },
@@ -17,6 +19,7 @@ const routes: Routes = [
   { 
     path: 'admin', 
     component: MainPanelComponent, 
+    canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'pytania', pathMatch: 'full' },
       { path: 'pytania', component: QuestionSelectComponent },
@@ -25,13 +28,15 @@ const routes: Routes = [
       { path: 'kierunki', component: StudyFieldsSelectComponent },
       { path: 'kierunki/form/:id', component: StudyFieldsFormComponent },
       { path: 'kierunki/form', component: StudyFieldsFormComponent },
-      { path: 'kandydaci', component: CandidatesListComponent }
+      { path: 'kandydaci', component: CandidatesListComponent },
     ]
-  }
+  },
+  { path: 'admin/login', component: LoginComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [AuthGuard]
 })
 export class AppRoutingModule { }
