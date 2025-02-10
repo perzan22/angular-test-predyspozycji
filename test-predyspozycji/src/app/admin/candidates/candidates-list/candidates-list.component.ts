@@ -3,6 +3,9 @@ import { Candidate } from '../../../candidates/candidate.model';
 import { CandidatesService } from '../../../candidates/candidates.service';
 import { Subscription } from 'rxjs';
 
+import * as xlsx from 'xlsx';
+import { saveAs } from 'file-saver'
+
 @Component({
   selector: 'app-candidates-list',
   templateUrl: './candidates-list.component.html',
@@ -34,6 +37,22 @@ export class CandidatesListComponent implements OnInit {
     })
   }
 
+  exportDataToExcel() {
+    const worksheet: xlsx.WorkSheet = xlsx.utils.json_to_sheet(this.candidates);
 
+    const workbook: xlsx.WorkBook = {
+      Sheets: { 'Dane kandydatów': worksheet },
+      SheetNames: ['Dane kandydatów']
+    };
+
+    const excelBuffer: any = xlsx.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array'
+    })
+
+    const fileName = 'kandydaci-na-studia.xlsx';
+    const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    saveAs(blob, fileName);
+  }
 
 }

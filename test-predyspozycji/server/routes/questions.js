@@ -3,15 +3,16 @@ const express = require('express')
 const router = express.Router()
 
 const QuestionsControllers = require('../controllers/questions')
+const checkAuth = require('../middlewares/check-auth')
 
 router.get('', QuestionsControllers.getQuestions)
 
-router.get('/edit', QuestionsControllers.getQuestion)
+router.get('/edit', checkAuth, QuestionsControllers.getQuestion)
 
-router.patch('', QuestionsControllers.editQuestion)
+router.patch('', checkAuth, QuestionsControllers.editQuestion)
 
-router.post('', QuestionsControllers.addQuestion)
+router.post('', checkAuth, QuestionsControllers.addQuestion)
 
-router.delete('', QuestionsControllers.deleteQuestion)
+router.delete('', checkAuth, QuestionsControllers.deleteQuestion)
 
 module.exports = router

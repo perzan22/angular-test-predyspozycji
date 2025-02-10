@@ -5,6 +5,8 @@ import { ResultsService } from '../../results/results.service';
 import { CandidatesService } from '../../candidates/candidates.service';
 import { response } from 'express';
 import { Router } from '@angular/router';
+import { MailService } from '../../mail/mail.service';
+import { StudyFieldsService } from '../../study-fields/study-fields.service';
 
 @Component({
   selector: 'app-email-form',
@@ -17,7 +19,7 @@ export class EmailFormComponent implements OnInit {
   form!: FormGroup
   wynik!: number
 
-  constructor(private resultService: ResultsService, private candidateService: CandidatesService, private router: Router) {}
+  constructor(private resultService: ResultsService, private candidateService: CandidatesService, private router: Router, private studyFieldsService: StudyFieldsService, private mailService: MailService) {}
 
 
   ngOnInit(): void {
@@ -60,7 +62,20 @@ export class EmailFormComponent implements OnInit {
 
           this.resultService.addResult(id_kandydata, this.kierunek, this.wynik).subscribe({
             next: response => {
-              this.router.navigate(['/'])
+              this.studyFieldsService.getStudyField(this.kierunek).subscribe({
+                next: studyField => {
+                  this.mailService.sendMail(this.form.value.imie, this.form.value.nazwisko, studyField.nazwa, this.form.value.email).subscribe({
+                    next: () => {
+                      this.router.navigate(['/'])
+                    },
+                    error: error => {
+                      console.error(error);
+                    }
+                  })
+                  
+                }
+              })
+              
             }
           })
         })
