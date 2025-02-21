@@ -1,15 +1,26 @@
 const mail = require("../smtp");
+const mjml = require("mjml");
+const fs = require("fs");
 require('dotenv').config();
 
 exports.sendMail = async (req, res, next) => {
 
     const { imie, nazwisko, kierunek, email } = req.body;
+    
+    const mjmlTamplate = fs.readFileSync("../views/email.mjml", "utf8");
+
+    const mjmlWithData = mjmlTamplate
+        .replace("{{imie}}", `${imie}`)
+        .replace("{{nazwisko}}", `${nazwisko}`)
+        .replace("{{kierunek}}", `${kierunek}`);
+
+    const htmlOutput = mjml(mjmlWithData).html;
 
     const mailOptions = {
         from: process.env.SMTP_USER,
         to: email,
         subject: `Twój wybrany kierunek!`,
-        html: `<h2>Cześć ${imie} ${nazwisko}!<br>Twój wybrany kierunek: ${kierunek}</h2>`
+        html: htmlOutput
     };
 
     try {
