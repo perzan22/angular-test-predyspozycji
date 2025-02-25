@@ -116,3 +116,16 @@ exports.deleteQuestion = async (req, res, next) => {
     }
 
 }
+
+exports.getQuestionTypes = async (req, res, next) => {
+    const query = `SELECT * FROM typ_pytania`;
+    const result = await db.query(query);
+    if (result) {
+        res.status(200).json({
+            questionTypes: result.rows,
+            message: 'Typy pytań znalezione!'
+        })
+    } else {
+        res.status(404).json({ message: 'Nie znaleziono pytań' })
+    }
+}

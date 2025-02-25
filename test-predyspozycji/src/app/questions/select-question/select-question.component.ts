@@ -35,6 +35,7 @@ export class SelectQuestionComponent implements OnInit {
         this.answersSubs = this.questionService.getAnswerUpdateListener().subscribe({
           next: answerData => {
             this.answers = answerData.answers
+            console.log(this.answers)
           }
         })
       }

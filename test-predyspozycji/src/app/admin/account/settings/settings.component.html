@@ -1,0 +1,35 @@
+<div class="container">
+    <section>
+        <h1>Zmień hasło</h1>
+        <form [formGroup]="formPass" (submit)="onSubmitPass()">
+            <mat-form-field appearance="outline" floatLabel="always">
+                <mat-label>Aktualne hasło</mat-label>
+                <input matInput formControlName="aktualne" type="password">
+            </mat-form-field>
+            <mat-form-field appearance="outline" floatLabel="always">
+                <mat-label>Nowe hasło</mat-label>
+                <input matInput formControlName="nowe" type="password">
+            </mat-form-field>
+            <button mat-raised-button color="primary" type="submit">POTWIERDŹ ZMIANY</button>
+        </form>
+    </section>
+    <mat-divider></mat-divider>
+    <section>
+        <h1>Dodaj nowego administratora</h1>
+        <form [formGroup]="formAdd" (submit)="onSubmitAdd()">
+            <mat-form-field appearance="outline" floatLabel="always">
+                <mat-label>Login</mat-label>
+                <input matInput formControlName="login">
+            </mat-form-field>
+            <mat-form-field appearance="outline" floatLabel="always" type="password">
+                <mat-label>Hasło</mat-label>
+                <input matInput formControlName="haslo" type="password">
+            </mat-form-field>
+            <mat-form-field appearance="outline" floatLabel="always" type="password">
+                <mat-label>Potwierdź hasło</mat-label>
+                <input matInput formControlName="hasloPotwierdz" type="password">
+            </mat-form-field>
+            <button mat-raised-button color="primary" type="submit">DODAJ KONTO</button>
+        </form>
+    </section>
+</div>

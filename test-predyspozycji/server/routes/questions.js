@@ -15,4 +15,6 @@ router.post('', checkAuth, QuestionsControllers.addQuestion)
 
 router.delete('', checkAuth, QuestionsControllers.deleteQuestion)
 
+router.get('/type', QuestionsControllers.getQuestionTypes)
+
 module.exports = router

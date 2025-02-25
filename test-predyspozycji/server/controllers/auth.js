@@ -24,6 +24,58 @@ exports.login = async (req, res, next) => {
 
     res.status(200).json({
         message: 'Zalogowano pomyślnie!',
-        token: token
+        token: token,
+        adminID: admin.rows[0].id_admin
     });
+}
+
+exports.changePassword = async (req, res, next) => {
+    const { actualPass, newPass, adminID } = req.body;
+
+    const query = `SELECT * FROM administrator WHERE id_admin = $1`;
+
+    const admin = await db.query(query, [adminID]);
+
+    if (!admin) {
+        return res.status(404).json({ message: 'Nieznaleziono admina!' });
+    }
+
+    const oldPassword = admin.rows[0].haslo;
+    return bcrypt.compare(actualPass, oldPassword).then(result => {
+        if (!result) {
+            return res.status(401).json({ message: 'Niepoprawne aktualne hasło!' })
+        }
+
+        bcrypt.hash(newPass, 10).then(async hash => {
+            admin.password = hash;
+
+            const updateQuery = `UPDATE administrator SET haslo = $1 WHERE id_admin = $2`;
+            const result = await db.query(updateQuery, [hash, adminID]);
+            if (result) {
+                res.status(200).json({ message: 'Zaktualizowano hasło!' })
+            } else {
+                res.status(401).json({ message: 'Nie udało się zaktualizować hasła!' })
+            }
+
+        })
+
+    })
+}
+
+exports.addAdmin = async (req, res, next) => {
+    const { login, password } = req.body;
+
+    bcrypt.hash(password, 10).then(hash => {
+
+        const query = `INSERT INTO administrator (login, haslo) VALUES ($1, $2)`;
+
+        const result = db.query(query, [login, hash]);
+
+        if (result) {
+            res.status(200).json({ message: `Dodano administratora ${login}` });
+        } else {
+            res.status(404).json({ message: 'Nie udało się dodać nowego administratora.' });
+        }
+    });
+    
 }

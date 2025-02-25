@@ -1,21 +1,25 @@
 const { getAnswers } = require('../store/answersStore')
-const calculateAverage = require('../functions/calculateAverage')
 const db = require('../db')
 const findClosestField = require('../functions/findClosestField')
+const calculatePersonality = require('../functions/calculatePersonality')
 
 exports.getTestResult = async (req, res, next) => {
-    const average = calculateAverage(getAnswers())
 
-    const query = `SELECT * FROM kierunek`;
-    const result = await db.query(query);
+    const hexagonQuery = `SELECT x, y, label FROM typ_osobowosci`;
+    const hexagon = await db.query(hexagonQuery);
+
+    const personalityPoint = calculatePersonality(getAnswers(), hexagon.rows);
+
+    const studyQuery = `SELECT * FROM kierunek`;
+    const result = await db.query(studyQuery);
     const kierunki = result.rows;
 
     
-    const kierunek = findClosestField(average, kierunki)
+    const kierunek = findClosestField(personalityPoint, kierunki)
 
     res.status(200).json({ 
         kierunek: kierunek,
-        wynik: average
+        wynik: personalityPoint.x
     })
 }
 

@@ -4,6 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { Question } from './question.model';
 import { Answer } from './answer.model';
 import { Router } from '@angular/router';
+import { QuestionType } from './questionType.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,8 @@ export class QuestionService {
   private questionSubs = new Subject<{ questions: Question[] }>
   private answers: Answer[] = []
   private answerSubs = new Subject<{ answers: Answer[] }>
+  private questionTypes: QuestionType[] = [];
+  private questionTypesSubs = new Subject<{ questionTypes: QuestionType[] }>
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -133,6 +136,15 @@ export class QuestionService {
     return this.http.post<{ id_pytania: number }>(`${this.questionApiUrl}`, questionData)
   }
 
+  getQuestionTypes() {
+    this.http.get<{ questionTypes: QuestionType[], message: string }>(`${ this.questionApiUrl}/type`).subscribe({
+      next: fetchedTypes => {
+        this.questionTypes = fetchedTypes.questionTypes;
+        this.questionTypesSubs.next({ questionTypes: [...this.questionTypes] })
+      }
+    })
+  }
+
   deleteQuestion(id_pytania: number) {
     return this.http.delete<{ question: Question, message: string }>(`${ this.questionApiUrl}?id_pytania=${id_pytania}`);
   }
@@ -143,5 +155,9 @@ export class QuestionService {
 
   getAnswerUpdateListener() {
     return this.answerSubs.asObservable()
+  }
+
+  getQuestionTypesUpdateListener() {
+    return this.questionTypesSubs.asObservable()
   }
 }

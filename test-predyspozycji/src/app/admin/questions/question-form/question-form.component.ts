@@ -5,6 +5,7 @@ import { QuestionService } from '../../../questions/questions.service';
 import { Question } from '../../../questions/question.model';
 import { Answer } from '../../../questions/answer.model';
 import { Subscription } from 'rxjs';
+import { QuestionType } from '../../../questions/questionType.model';
 
 @Component({
   selector: 'app-question-form',
@@ -19,6 +20,8 @@ export class QuestionFormComponent implements OnInit {
   question!: Question
   answers: Answer[] = []
   answerSubs!: Subscription
+  questionTypes: QuestionType[] = [];
+  questionTypeSubs!: Subscription;
 
   constructor(private route: ActivatedRoute, private questionService: QuestionService) {}
 
@@ -27,6 +30,7 @@ export class QuestionFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.form = new FormGroup({
       "tresc_pytania": new FormControl(null, {
         validators: [Validators.required, Validators.maxLength(40)]
@@ -38,6 +42,13 @@ export class QuestionFormComponent implements OnInit {
         validators: [Validators.required]
       }),
       "odpowiedzi": new FormArray([])
+    })
+
+    this.questionService.getQuestionTypes();
+    this.questionTypeSubs = this.questionService.getQuestionTypesUpdateListener().subscribe({
+      next: questionTypeData => {
+        this.questionTypes = questionTypeData.questionTypes
+      }
     })
 
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
@@ -54,7 +65,7 @@ export class QuestionFormComponent implements OnInit {
               typ: questionData.id_typu
             }
             
-            this.form.patchValue({ 'tresc_pytania': this.question.tresc, 'instrukcja': this.question.instrukcja, 'typ_pytania': this.question.typ.toString() })
+            this.form.patchValue({ 'tresc_pytania': this.question.tresc, 'instrukcja': this.question.instrukcja, 'typ_pytania': this.question.typ })
           })
           this.questionService.getAnswers(+this.questionID)
           this.answerSubs = this.questionService.getAnswerUpdateListener().subscribe({
@@ -64,7 +75,7 @@ export class QuestionFormComponent implements OnInit {
                 const answerGroup = new FormGroup({
                   "id_odpowiedzi": new FormControl({ value: answer.id_odpowiedzi, disabled: true }),
                   "tresc_odpowiedzi": new FormControl(answer.tresc, [Validators.required, Validators.maxLength(60)]),
-                  "wartosc": new FormControl(answer.wartosc_punktowa, [Validators.required])
+                  "wartosc": new FormControl(answer.wartosc_punktowa, [Validators.required, Validators.min(0), Validators.max(1)])
                 });
                 this.odpowiedzi.push(answerGroup)
               })

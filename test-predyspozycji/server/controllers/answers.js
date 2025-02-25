@@ -6,7 +6,7 @@ let answers = [];
 exports.saveAnswers = (req, res, next) => {
     const { answer } = req.body
     if (answer) {
-        addAnswer(answer.wartosc_punktowa);
+        addAnswer({value: answer.wartosc_punktowa, label: answer.label});
         res.status(200).json({ message: 'Odpowiedź zapisana', answer: answer })
     } else {
         res.status(400).json({ message: 'Brak odpowiedzi' })
@@ -15,7 +15,16 @@ exports.saveAnswers = (req, res, next) => {
 
 exports.getAnswers = async (req, res, next) => {
     const id_pytania = req.query.id_pytania
-    const query = `SELECT * FROM odpowiedz WHERE id_pytania = $1 ORDER BY id_odpowiedzi`;
+
+    const query = `SELECT o.id_odpowiedzi, o.tresc, o.wartosc_punktowa, t.label 
+    FROM odpowiedz AS o 
+    JOIN pytanie AS p 
+    ON p.id_pytania = o.id_pytania 
+    JOIN typ_pytania AS t 
+    ON t.id_typu = p.id_typu 
+    WHERE o.id_pytania = $1 
+    ORDER BY o.id_odpowiedzi`;
+
     const values = [id_pytania]
     const result = await db.query(query, values);
     if (result) {
@@ -31,7 +40,7 @@ exports.getAnswers = async (req, res, next) => {
 exports.resetAnswers = (req, res, next) => {
     resetAnswers();
     res.status(200).json({
-        message: 'Odpoweidzi wyzerowane.'
+        message: 'Odpowiedzi wyzerowane.'
     })
 }
 

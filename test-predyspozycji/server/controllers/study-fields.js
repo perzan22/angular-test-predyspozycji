@@ -23,7 +23,8 @@ exports.getStudyField = async (req, res, next) => {
             id_kierunku: studyField.id_kierunku,
             nazwa: studyField.nazwa,
             wydzial: studyField.wydzial,
-            wartosc_punktowa: studyField.wartosc_punktowa
+            x: studyField.x,
+            y: studyField.y
         })
     } else {
         res.status(404).json({ message: 'Nie znaleziono kierunku' })
@@ -34,11 +35,12 @@ exports.addStudyField = async (req, res, next) => {
     const studyField = {
         nazwa: req.body.nazwa,
         wydzial: req.body.wydzial,
-        wartosc_punktowa: +req.body.wartosc_punktowa
+        x: +req.body.x,
+        y: +req.body.y
     };
 
-    const query = `INSERT INTO kierunek (nazwa, wydzial, wartosc_punktowa) VALUES ($1, $2, $3)`;
-    const values = [studyField.nazwa, studyField.wydzial, studyField.wartosc_punktowa];
+    const query = `INSERT INTO kierunek (nazwa, wydzial, x, y) VALUES ($1, $2, $3, $4)`;
+    const values = [studyField.nazwa, studyField.wydzial, studyField.x, studyField.y];
 
     try {
         const result = await db.query(query, values);
@@ -57,11 +59,12 @@ exports.editStudyField = async (req, res, next) => {
         id_kierunku: req.query.id_kierunku,
         nazwa: req.body.nazwa,
         wydzial: req.body.wydzial,
-        wartosc_punktowa: +req.body.wartosc_punktowa
+        x: +req.body.x,
+        y: +req.body.y
     };
 
-    const query = `UPDATE kierunek SET nazwa = $1, wydzial = $2, wartosc_punktowa = $3 WHERE id_kierunku = $4`
-    const values = [studyField.nazwa, studyField.wydzial, studyField.wartosc_punktowa, studyField.id_kierunku];
+    const query = `UPDATE kierunek SET nazwa = $1, wydzial = $2, x = $3, y = $4 WHERE id_kierunku = $5`
+    const values = [studyField.nazwa, studyField.wydzial, studyField.x, studyField.y, studyField.id_kierunku];
 
     try {
         const result = await db.query(query, values);

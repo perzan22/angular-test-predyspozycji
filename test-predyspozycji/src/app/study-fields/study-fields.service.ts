@@ -24,14 +24,15 @@ export class StudyFieldsService {
   }
 
   getStudyField(id_kierunku: number) {
-    return this.http.get<{ id_kierunku: number, nazwa: string, wydzial: string, wartosc_punktowa: number }>(`http://localhost:3000/api/study-fields/edit?id_kierunku=${id_kierunku}`)
+    return this.http.get<{ id_kierunku: number, nazwa: string, wydzial: string, x: number, y: number }>(`http://localhost:3000/api/study-fields/edit?id_kierunku=${id_kierunku}`)
   }
 
-  addStudyField(nazwa: string, wydzial: string, wartosc_punktowa: number) {
+  addStudyField(nazwa: string, wydzial: string, x: number, y: number) {
     const studyFieldData = {
       nazwa: nazwa,
       wydzial: wydzial,
-      wartosc_punktowa: wartosc_punktowa
+      x: x,
+      y: y
     }
     
 
@@ -46,17 +47,17 @@ export class StudyFieldsService {
     })
   }
 
-  editStudyField(nazwa: string, wydzial: string, wartosc_punktowa: number, studyFieldID: number) {
+  editStudyField(nazwa: string, wydzial: string, x: number, y: number, studyFieldID: number) {
     const studyFieldData = {
       nazwa: nazwa,
       wydzial: wydzial,
-      wartosc_punktowa: wartosc_punktowa
+      x: x,
+      y: y
     }
     
 
     this.http.patch<{ studyField: StudyField, message: string }>(`http://localhost:3000/api/study-fields?id_kierunku=${studyFieldID}`, studyFieldData).subscribe({
       next: editedStudyField => {
-        console.log(editedStudyField.studyField);
         this.router.navigate(['/admin/kierunki'])
       },
       error: error => {

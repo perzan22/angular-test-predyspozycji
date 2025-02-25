@@ -1,8 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { QuestionService } from '../../questions/questions.service';
-import { Question } from '../../questions/question.model';
-import { Answer } from '../../questions/answer.model';
-import { Subscription } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 
 @Component({

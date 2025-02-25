@@ -1,6 +1,7 @@
 let answers = [];
 
 const addAnswer = (answer) => {
+    console.log(answer)
     answers.push(answer);
 };
 

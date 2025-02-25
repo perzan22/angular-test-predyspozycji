@@ -22,6 +22,8 @@ import { StudyFieldsSelectComponent } from './admin/study-fields/study-fields-se
 import { StudyFieldsFormComponent } from './admin/study-fields/study-fields-form/study-fields-form.component';
 import { CandidatesListComponent } from './admin/candidates/candidates-list/candidates-list.component';
 import { AuthInterceptor } from './admin/auth/auth.interceptor';
+import { SettingsComponent } from './admin/account/settings/settings.component';
+import { HexagonComponent } from './hexagon/hexagon/hexagon.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { AuthInterceptor } from './admin/auth/auth.interceptor';
     QuestionFormComponent,
     StudyFieldsSelectComponent,
     StudyFieldsFormComponent,
-    CandidatesListComponent
+    CandidatesListComponent,
+    SettingsComponent,
+    HexagonComponent
   ],
   imports: [
     BrowserModule,

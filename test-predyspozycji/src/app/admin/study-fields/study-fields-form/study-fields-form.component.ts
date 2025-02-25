@@ -15,6 +15,8 @@ export class StudyFieldsFormComponent implements OnInit {
   mode: string = 'create'
   studyFieldID!: string | null
   studyField!: StudyField
+  fieldOfStudyPoint!: { x: number, y: number }
+  dataLoaded: boolean = false;
 
   constructor(private studyFieldsService: StudyFieldsService, private route: ActivatedRoute) {}
   
@@ -25,9 +27,6 @@ export class StudyFieldsFormComponent implements OnInit {
       }),
       "wydzial": new FormControl(null, {
         validators: [Validators.required, Validators.maxLength(40)]
-      }),
-      "wartosc": new FormControl(null, {
-        validators: [Validators.required]
       })
     })
 
@@ -41,14 +40,20 @@ export class StudyFieldsFormComponent implements OnInit {
               id_kierunku: studyFieldData.id_kierunku,
               nazwa: studyFieldData.nazwa,
               wydzial: studyFieldData.wydzial,
-              wartosc_punktowa: studyFieldData.wartosc_punktowa,
+              x: studyFieldData.x,
+              y: studyFieldData.y
             }
+
+            this.fieldOfStudyPoint = { x: this.studyField.x, y: this.studyField.y };
             
-            this.form.setValue({ 'nazwa': this.studyField.nazwa, 'wydzial': this.studyField.wydzial, 'wartosc': this.studyField.wartosc_punktowa })
+            
+            this.form.setValue({ 'nazwa': this.studyField.nazwa, 'wydzial': this.studyField.wydzial })
+            this.dataLoaded = true;
           })
         }
       } else {
         this.mode = 'create'
+        this.dataLoaded = true;
       }
     })
   }
@@ -65,7 +70,7 @@ export class StudyFieldsFormComponent implements OnInit {
     if (this.form.invalid) {
       return
     }
-    this.studyFieldsService.addStudyField(this.form.value.nazwa, this.form.value.wydzial, this.form.value.wartosc);
+    this.studyFieldsService.addStudyField(this.form.value.nazwa, this.form.value.wydzial, this.fieldOfStudyPoint.x, this.fieldOfStudyPoint.y);
   }
 
   editStudyField() {
@@ -73,7 +78,11 @@ export class StudyFieldsFormComponent implements OnInit {
       return
     }
     if (this.studyFieldID) {
-      this.studyFieldsService.editStudyField(this.form.value.nazwa, this.form.value.wydzial, this.form.value.wartosc, +this.studyFieldID);
+      this.studyFieldsService.editStudyField(this.form.value.nazwa, this.form.value.wydzial, this.fieldOfStudyPoint.x, this.fieldOfStudyPoint.y, +this.studyFieldID);
     }
+  }
+
+  onPointUpdate(updatedPoint: { x: number, y: number }) {
+    this.fieldOfStudyPoint = updatedPoint;
   }
 }

@@ -1,12 +1,20 @@
-function findClosestField(average, fields) {
-    return fields.reduce((closest, field) => {
-        const difference = Math.abs(field.wartosc_punktowa - average)
-        console.log(difference, closest.difference)
-        if (difference < closest.difference) {
-            return { id_kierunku: field.id_kierunku, difference }
+function findClosestField(personalityPoint, fields) {
+    
+    let smallestDistance = Infinity;
+    let bestMatch = null;
+
+    fields.forEach(field => {
+        const distance = Math.sqrt(
+            Math.pow(personalityPoint.x - field.x, 2) +
+            Math.pow(personalityPoint.y - field.y, 2)
+        );
+
+        if (distance < smallestDistance) {
+            smallestDistance = distance;
+            bestMatch = field
         }
-        return closest;
-    }, { id_kierunku: null, difference: Infinity }).id_kierunku
+    });
+    return bestMatch.id_kierunku
 };
 
 module.exports = findClosestField;

@@ -6,4 +6,8 @@ const AuthControllers = require('../controllers/auth')
 
 router.post('', AuthControllers.login)
 
+router.patch('', AuthControllers.changePassword)
+
+router.post('/newAdmin', AuthControllers.addAdmin)
+
 module.exports = router

@@ -11,6 +11,7 @@ import { StudyFieldsFormComponent } from './admin/study-fields/study-fields-form
 import { CandidatesListComponent } from './admin/candidates/candidates-list/candidates-list.component';
 import { LoginComponent } from './admin/auth/login/login.component';
 import { AuthGuard } from './admin/auth/guards/auth.guard';
+import { SettingsComponent } from './admin/account/settings/settings.component';
 
 const routes: Routes = [
   { path: '', component: MainPageComponent },
@@ -29,6 +30,7 @@ const routes: Routes = [
       { path: 'kierunki/form/:id', component: StudyFieldsFormComponent },
       { path: 'kierunki/form', component: StudyFieldsFormComponent },
       { path: 'kandydaci', component: CandidatesListComponent },
+      { path: 'konto', component: SettingsComponent }
     ]
   },
   { path: 'admin/login', component: LoginComponent }

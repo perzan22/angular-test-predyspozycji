@@ -64,16 +64,16 @@ export class EmailFormComponent implements OnInit {
             next: response => {
               this.studyFieldsService.getStudyField(this.kierunek).subscribe({
                 next: studyField => {
-                  this.mailService.sendMail(this.form.value.imie, this.form.value.nazwisko, studyField.nazwa, this.form.value.email).subscribe({
-                    next: () => {
+                  // this.mailService.sendMail(this.form.value.imie, this.form.value.nazwisko, studyField.nazwa, this.form.value.email).subscribe({
+                  // //   next: () => {
                       this.router.navigate(['/'])
                     },
                     error: error => {
                       console.error(error);
                     }
-                  })
+                  // // })
                   
-                }
+                //}
               })
               
             }

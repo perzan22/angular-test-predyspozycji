@@ -11,10 +11,9 @@
                 <mat-label>Wydział</mat-label>
                 <input matInput formControlName="wydzial">
             </mat-form-field>
-            <mat-form-field appearance="outline" floatLabel="always">
-                <mat-label>Wartość punktowa</mat-label>
-                <input matInput type="number" formControlName="wartosc">
-            </mat-form-field>
+            <h2>Środowisko kierunku</h2>
+            <p>Naciśnij na miejsce, w którym znajduje się środowisko ososbowości danego kierunku wewnątrz heksagonu</p>
+            <app-hexagon [fieldOfStudyPoint]="fieldOfStudyPoint" (fieldOfStudyPointChange)="onPointUpdate($event)" *ngIf="dataLoaded"></app-hexagon>
             <button mat-raised-button color="accent" type="submit">
                 {{ mode == 'edit' ? 'Zatwierdź zmiany' : 'Dodaj kierunek' }}
             </button>
