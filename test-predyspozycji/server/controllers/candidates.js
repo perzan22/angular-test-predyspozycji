@@ -76,7 +76,7 @@ exports.deleteCandidate = async (req, res, next) => {
         await transaction.query(`COMMIT`);
 
         res.status(201).json({
-            message: 'Odpowiedź usunięta pomyślnie!',
+            message: 'Kandydat usunięty pomyślnie!',
             candidate: candidateResult.rows[0]
         });
 

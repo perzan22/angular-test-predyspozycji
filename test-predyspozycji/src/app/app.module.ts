@@ -24,6 +24,7 @@ import { CandidatesListComponent } from './admin/candidates/candidates-list/cand
 import { AuthInterceptor } from './admin/auth/auth.interceptor';
 import { SettingsComponent } from './admin/account/settings/settings.component';
 import { HexagonComponent } from './hexagon/hexagon/hexagon.component';
+import { DialogComponent } from './dialog/dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { HexagonComponent } from './hexagon/hexagon/hexagon.component';
     StudyFieldsFormComponent,
     CandidatesListComponent,
     SettingsComponent,
-    HexagonComponent
+    HexagonComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,

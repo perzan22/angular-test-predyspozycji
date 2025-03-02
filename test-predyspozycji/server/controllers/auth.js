@@ -11,7 +11,8 @@ exports.login = async (req, res, next) => {
     const query = `SELECT * FROM administrator WHERE login = $1`;
     
     const admin = await db.query(query, [login]);
-    if (!admin) {
+
+    if (admin.rows.length == 0) {
         return res.status(404).json({ message: 'Niepoprawny login!' });
     }
 
@@ -36,7 +37,7 @@ exports.changePassword = async (req, res, next) => {
 
     const admin = await db.query(query, [adminID]);
 
-    if (!admin) {
+    if (admin.rows.length == 0) {
         return res.status(404).json({ message: 'Nieznaleziono admina!' });
     }
 

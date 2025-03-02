@@ -12,7 +12,7 @@ function calculatePersonality(answersArray, hexagonArray) {
                 grouped.push(group);
             }
 
-            group.sum += answer.value;
+            group.sum += answer.wartosc_punktowa;
             group.count += 1;
         }
     });

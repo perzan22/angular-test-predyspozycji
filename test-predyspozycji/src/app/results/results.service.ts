@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Answer } from '../questions/answer.model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +10,9 @@ export class ResultsService {
 
   constructor(private http: HttpClient) { }
 
-  getResults(): Observable<any> {
-    return this.http.get<{ kierunek: number, wynik: number }>(`http://localhost:3000/api/results/`)
+  getResults(candidateAnswers: Answer[]): Observable<any> {
+
+    return this.http.post<{ kierunek: number, wynik: number }>(`http://localhost:3000/api/results/getResult/`, { candidateAnswers })
   }
 
   addResult(id_kandydata: number, id_kierunku: number, wynik: number) {

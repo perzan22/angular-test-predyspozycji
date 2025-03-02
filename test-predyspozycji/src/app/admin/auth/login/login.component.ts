@@ -34,6 +34,17 @@ export class LoginComponent implements OnInit{
     this.authService.login(this.form.value.login, this.form.value.password)
   }
 
+  getErrorMessage(controlName: string): string {
+    const control = this.form.get(controlName);
+    if (!control) return '';
+
+    if (control.hasError('required')) return 'Pole jest wymagane!';
+    if (control.hasError('maxlength')) return `Wprowadzono za dużą ilość znaków. Maksymalna ilość znaków: ${control.errors?.['maxlength'].requiredLength}`;
+    if (control.hasError('minlength')) return `Wprowadzono za małą ilość znaków. Minimalna ilość znaków: ${control.errors?.['minlength'].requiredLength}`;
+
+    return '';
+  }
+
 
 
 }

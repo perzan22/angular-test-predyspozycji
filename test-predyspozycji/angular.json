@@ -38,8 +38,8 @@
             ],
             "styles": [
               "src/styles/custom-theme.scss",
-              
-              "src/styles.sass"
+              "src/styles.sass",
+              "src/styles/mixins.sass"
             ],
             "scripts": []
           },

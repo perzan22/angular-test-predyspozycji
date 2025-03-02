@@ -9,6 +9,6 @@ module.exports = (req, res, next) => {
         req.userData = { login: decodedToken.login };
         next();
     } catch (error) {
-        res.status(401).json({ message: `${error.name}` });
+        res.status(401).json({ message: `${error.name}, zaloguj się ponownie!` });
     }
 }

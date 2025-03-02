@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 
 import * as xlsx from 'xlsx';
 import { saveAs } from 'file-saver'
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-candidates-list',
@@ -17,7 +18,7 @@ export class CandidatesListComponent implements OnInit {
   private candidatesSubs!: Subscription
   displayedColumns: string[] = ['imie', 'nazwisko', 'email', 'miasto', 'data', 'nazwa', 'usun']
 
-  constructor(private candidatesService: CandidatesService) {}
+  constructor(private candidatesService: CandidatesService, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
 
@@ -25,14 +26,21 @@ export class CandidatesListComponent implements OnInit {
     this.candidatesSubs = this.candidatesService.getCandidatesUpdateListener().subscribe({
       next: candidatesData => {
         this.candidates = candidatesData.candidates
+      },
+      error: error => {
+        this.snackBar.open(error.error.message, 'OK', { duration: 3000 });
       }
     })
   }
 
   onDelete(id_kandydata: number) {
     this.candidatesService.deleteCandidate(id_kandydata).subscribe({
-      next: () => {
+      next: deletedCandidate => {
         this.candidates = this.candidates.filter(candidate => candidate.id_kandydata !== id_kandydata);
+        this.snackBar.open(deletedCandidate.message, 'OK', { duration: 3000 })
+      },
+      error: error => {
+        this.snackBar.open(error.error.message, 'OK', { duration: 3000 });
       }
     })
   }
@@ -53,6 +61,8 @@ export class CandidatesListComponent implements OnInit {
     const fileName = 'kandydaci-na-studia.xlsx';
     const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
     saveAs(blob, fileName);
+
+    this.snackBar.open('Pobrano plik .xlsx', 'OK', { duration: 3000 })
   }
 
 }

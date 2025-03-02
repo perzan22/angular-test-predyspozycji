@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { response } from 'express';
 import { CookieService } from 'ngx-cookie-service';
@@ -16,7 +17,7 @@ export class AuthService {
   private userLogin: string = ''
   private adminID: string = ''
 
-  constructor(private http: HttpClient, private router: Router, private cookies: CookieService) { }
+  constructor(private http: HttpClient, private router: Router, private cookies: CookieService, private snackBar: MatSnackBar) { }
 
   getIsAuth() {
     return this.isAuth;
@@ -41,6 +42,9 @@ export class AuthService {
           this.router.navigate(['/admin']);
           this.setCookies();
         }
+      },
+      error: error => {
+        this.snackBar.open(error.error.message, 'OK', { duration: 3000 })
       }
     })
   }
@@ -102,11 +106,11 @@ export class AuthService {
     }
 
     this.http.patch<{ message: string }>('http://localhost:3000/api/auth/', changeData).subscribe({
-      next: editedAnswer => {
-        console.log(editedAnswer.message);
+      next: editedAdmin => {
+        this.snackBar.open(editedAdmin.message, 'OK', { duration: 3000 })
       },
       error: error => {
-        alert(error.error.message);
+        this.snackBar.open(error.error.message, 'OK', { duration: 3000 })
       }
     })
   }
@@ -119,11 +123,11 @@ export class AuthService {
     }
 
     this.http.post<{ message: string }>('http://localhost:3000/api/auth/newAdmin/', adminData).subscribe({
-      next: editedAnswer => {
-        console.log(editedAnswer.message);
+      next: editedAdmin => {
+        this.snackBar.open(editedAdmin.message, 'OK', { duration: 3000 })
       },
       error: error => {
-        alert(error.error.message);
+        this.snackBar.open(error.error.message, 'OK', { duration: 3000 })
       }
     })
   }

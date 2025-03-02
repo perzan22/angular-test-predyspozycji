@@ -1,8 +1,13 @@
+@import "../../../../styles/mixins"
+    
 .container
     height: 100%
 
     h1
         text-align: center
+        @include respond-to(mobile)
+            font-size: 20px
+        
 
     form
         display: flex
@@ -46,3 +51,10 @@
         .answer-new:hover
             background-color: #e4eaf0
             cursor: pointer
+
+mat-form-field
+    margin-bottom: 10px
+
+    @include respond-to(mobile)
+        mat-hint
+            font-size: 8px

@@ -1,14 +1,16 @@
-const { getAnswers } = require('../store/answersStore')
 const db = require('../db')
 const findClosestField = require('../functions/findClosestField')
 const calculatePersonality = require('../functions/calculatePersonality')
 
 exports.getTestResult = async (req, res, next) => {
 
+    const answers = req.body.candidateAnswers;
+    console.log(answers)
+
     const hexagonQuery = `SELECT x, y, label FROM typ_osobowosci`;
     const hexagon = await db.query(hexagonQuery);
 
-    const personalityPoint = calculatePersonality(getAnswers(), hexagon.rows);
+    const personalityPoint = calculatePersonality(answers, hexagon.rows);
 
     const studyQuery = `SELECT * FROM kierunek`;
     const result = await db.query(studyQuery);
@@ -39,7 +41,7 @@ exports.addNewResult = async (req, res, next) => {
 
         const result = await db.query(query, values);
         res.status(201).json({
-            message: 'Kandydat poprawnie dodany!',
+            message: 'Twój wynik dostępny jest na mailu!',
             wynik_testu: result.rows[0]
         })
 

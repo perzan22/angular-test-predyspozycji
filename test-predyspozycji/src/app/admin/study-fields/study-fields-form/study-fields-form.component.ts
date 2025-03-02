@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { StudyFieldsService } from '../../../study-fields/study-fields.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { StudyField } from '../../../study-fields/study-field.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-study-fields-form',
@@ -18,7 +19,7 @@ export class StudyFieldsFormComponent implements OnInit {
   fieldOfStudyPoint!: { x: number, y: number }
   dataLoaded: boolean = false;
 
-  constructor(private studyFieldsService: StudyFieldsService, private route: ActivatedRoute) {}
+  constructor(private studyFieldsService: StudyFieldsService, private route: ActivatedRoute, private snackBar: MatSnackBar) {}
   
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -35,20 +36,25 @@ export class StudyFieldsFormComponent implements OnInit {
         this.mode = 'edit';
         this.studyFieldID = paramMap.get('id')
         if (this.studyFieldID) {
-          this.studyFieldsService.getStudyField(+this.studyFieldID).subscribe(studyFieldData => {
-            this.studyField = {
-              id_kierunku: studyFieldData.id_kierunku,
-              nazwa: studyFieldData.nazwa,
-              wydzial: studyFieldData.wydzial,
-              x: studyFieldData.x,
-              y: studyFieldData.y
-            }
+          this.studyFieldsService.getStudyField(+this.studyFieldID).subscribe({
+            next: studyFieldData => {
+              this.studyField = {
+                id_kierunku: studyFieldData.id_kierunku,
+                nazwa: studyFieldData.nazwa,
+                wydzial: studyFieldData.wydzial,
+                x: studyFieldData.x,
+                y: studyFieldData.y
+              }
 
-            this.fieldOfStudyPoint = { x: this.studyField.x, y: this.studyField.y };
-            
-            
-            this.form.setValue({ 'nazwa': this.studyField.nazwa, 'wydzial': this.studyField.wydzial })
-            this.dataLoaded = true;
+              this.fieldOfStudyPoint = { x: this.studyField.x, y: this.studyField.y };
+              
+              
+              this.form.setValue({ 'nazwa': this.studyField.nazwa, 'wydzial': this.studyField.wydzial })
+              this.dataLoaded = true;
+            },
+            error: error => {
+              this.snackBar.open(error.error.message, 'OK', { duration: 3000 });
+            }
           })
         }
       } else {
@@ -84,5 +90,16 @@ export class StudyFieldsFormComponent implements OnInit {
 
   onPointUpdate(updatedPoint: { x: number, y: number }) {
     this.fieldOfStudyPoint = updatedPoint;
+  }
+
+  getErrorMessage(controlName: string): string {
+    const control = this.form.get(controlName);
+    if (!control) return '';
+
+    if (control.hasError('required')) return 'Pole jest wymagane!';
+    if (control.hasError('maxlength')) return `Wprowadzono za dużą ilość znaków. Maksymalna ilość znaków: ${control.errors?.['maxlength'].requiredLength}`;
+    if (control.hasError('minlength')) return `Wprowadzono za małą ilość znaków. Minimalna ilość znaków: ${control.errors?.['minlength'].requiredLength}`;
+
+    return '';
   }
 }

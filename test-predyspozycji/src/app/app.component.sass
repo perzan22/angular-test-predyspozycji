@@ -1,21 +1,36 @@
 app-footer
-    position: fixed
-    bottom: 0
+    //position: fixed
+    z-index: 1000
     width: 100%
-    height: 10%
+    min-height: 10vh
+    height: 95px
+    flex-shrink: 0
 
 app-header
-    position: fixed
-    top: 0
+    //position: fixed
+    z-index: 1000
     width: 100%
-    height: 10%
+    min-height: 10vh
+    height: 95px
+    flex-shrink: 0
+
+
 
 .main-layout
     display: flex
     justify-content: center
     align-items: center
-    height: 100%
+    height: 80%
+    margin: 10px
 
 .admin-layout 
     background-color: #99d8ea
     height: 100%
+
+section
+    min-height: 100vh
+    display: flex
+    flex-direction: column
+
+main
+    flex-grow: 1

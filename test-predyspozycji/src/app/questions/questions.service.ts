@@ -5,6 +5,7 @@ import { Question } from './question.model';
 import { Answer } from './answer.model';
 import { Router } from '@angular/router';
 import { QuestionType } from './questionType.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -21,17 +22,18 @@ export class QuestionService {
   private questionTypes: QuestionType[] = [];
   private questionTypesSubs = new Subject<{ questionTypes: QuestionType[] }>
 
-  constructor(private http: HttpClient, private router: Router) { }
+  answersToResult: Answer[] = []
 
-  sendAnswer(answer: Answer): Observable<any> {
-    return this.http.post<any>(`${this.answerApiUrl}/save`, { answer });
-  }
+  constructor(private http: HttpClient, private router: Router, private snackBar: MatSnackBar) { }
 
   getQuestions() {
     this.http.get<{ questions: any, message: string }>(`http://localhost:3000/api/questions/`).subscribe({
       next: fetchedQuestions => {
         this.questions = fetchedQuestions.questions;
         this.questionSubs.next({ questions: [...this.questions] })
+      },
+      error: error => {
+        this.snackBar.open(error.error.message, 'OK', { duration: 3000 });
       }
     })
   }
@@ -45,6 +47,9 @@ export class QuestionService {
       next: fetchedAnswers => {
         this.answers = fetchedAnswers.answers;
         this.answerSubs.next({ answers: [...this.answers] })
+      },
+      error: error => {
+        this.snackBar.open(error.error.message, 'OK', { duration: 3000 });
       }
     })
   }
@@ -59,11 +64,7 @@ export class QuestionService {
   }
 
   resetAnswers() {
-    this.http.get<{ message: string }>(`${this.answerApiUrl}/reset`).subscribe({
-      next: result => {
-        console.log(result.message)
-      }
-    })
+    this.answersToResult = [];
   }
 
   editQuestion(tresc: string, instrukcja: string, ilosc_odpowiedzi: number, id_typu: number, questionID: number) {
@@ -77,7 +78,7 @@ export class QuestionService {
 
     this.http.patch<{ question: Question, message: string }>(`http://localhost:3000/api/questions?id_pytania=${questionID}`, questionData).subscribe({
       next: editedQuestion => {
-        console.log(editedQuestion.question);
+        this.snackBar.open(editedQuestion.message, 'OK', { duration: 3000 })
         this.router.navigate(['/admin/pytania'])
       },
       error: error => {
@@ -96,7 +97,7 @@ export class QuestionService {
 
     this.http.patch<{ answer: Question, message: string }>(`${this.answerApiUrl}?id_odpowiedzi=${answerID}`, answerData).subscribe({
       next: editedAnswer => {
-        console.log(editedAnswer.answer);
+        this.snackBar.open(editedAnswer.message, 'OK', { duration: 3000 })
       },
       error: error => {
         console.log(error.message)
@@ -114,7 +115,7 @@ export class QuestionService {
   
       this.http.post<{ answer: Answer, message: string }>(`${this.answerApiUrl}`, answerData).subscribe({
         next: createdAnswer => {
-          console.log(createdAnswer.answer);
+          this.snackBar.open(createdAnswer.message, 'OK', { duration: 3000 })
         },
         error: error => {
           console.log(error.message)
@@ -141,6 +142,9 @@ export class QuestionService {
       next: fetchedTypes => {
         this.questionTypes = fetchedTypes.questionTypes;
         this.questionTypesSubs.next({ questionTypes: [...this.questionTypes] })
+      },
+      error: error => {
+        this.snackBar.open(error.error.message, 'OK', { duration: 3000 });
       }
     })
   }
@@ -160,4 +164,10 @@ export class QuestionService {
   getQuestionTypesUpdateListener() {
     return this.questionTypesSubs.asObservable()
   }
+
+  
+  public set setAnswersToResult(v : Answer[]) {
+    this.answersToResult = v;
+  }
+  
 }

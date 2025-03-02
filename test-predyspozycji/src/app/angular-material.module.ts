@@ -11,6 +11,8 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatSelectModule } from "@angular/material/select"
 import { MatTooltipModule } from '@angular/material/tooltip'
 import { MatTableModule } from '@angular/material/table'
+import { MatDialogModule } from '@angular/material/dialog'
+import { MatSnackBarModule } from '@angular/material/snack-bar'
 
 
 @NgModule({
@@ -25,7 +27,9 @@ import { MatTableModule } from '@angular/material/table'
         MatIconModule,
         MatSelectModule,
         MatTooltipModule,
-        MatTableModule
+        MatTableModule,
+        MatDialogModule,
+        MatSnackBarModule
     ],
 
     providers: [

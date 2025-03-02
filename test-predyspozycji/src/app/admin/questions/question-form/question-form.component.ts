@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { QuestionService } from '../../../questions/questions.service';
 import { Question } from '../../../questions/question.model';
 import { Answer } from '../../../questions/answer.model';
 import { Subscription } from 'rxjs';
 import { QuestionType } from '../../../questions/questionType.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-question-form',
@@ -23,7 +24,7 @@ export class QuestionFormComponent implements OnInit {
   questionTypes: QuestionType[] = [];
   questionTypeSubs!: Subscription;
 
-  constructor(private route: ActivatedRoute, private questionService: QuestionService) {}
+  constructor(private route: ActivatedRoute, private questionService: QuestionService, private router: Router, private snackBar: MatSnackBar) {}
 
   get odpowiedzi(): FormArray {
     return this.form.get('odpowiedzi') as FormArray;
@@ -48,6 +49,9 @@ export class QuestionFormComponent implements OnInit {
     this.questionTypeSubs = this.questionService.getQuestionTypesUpdateListener().subscribe({
       next: questionTypeData => {
         this.questionTypes = questionTypeData.questionTypes
+      },
+      error: error => {
+        this.snackBar.open(error.error.message, 'OK', { duration: 3000 });
       }
     })
 
@@ -56,17 +60,24 @@ export class QuestionFormComponent implements OnInit {
         this.mode = 'edit';
         this.questionID = paramMap.get('id')
         if (this.questionID) {
-          this.questionService.getQuestion(+this.questionID).subscribe(questionData => {
-            this.question = {
-              id_pytania: questionData.id_pytania,
-              tresc: questionData.tresc,
-              instrukcja: questionData.instrukcja,
-              ilosc_odpowiedzi: questionData.ilosc_odpowiedzi,
-              typ: questionData.id_typu
-            }
+          this.questionService.getQuestion(+this.questionID).subscribe({
+            next: questionData => {
+              this.question = {
+                id_pytania: questionData.id_pytania,
+                tresc: questionData.tresc,
+                instrukcja: questionData.instrukcja,
+                ilosc_odpowiedzi: questionData.ilosc_odpowiedzi,
+                typ: questionData.id_typu
+              }
             
             this.form.patchValue({ 'tresc_pytania': this.question.tresc, 'instrukcja': this.question.instrukcja, 'typ_pytania': this.question.typ })
-          })
+            },
+            error: error => {
+              this.snackBar.open(error.error.message, 'OK', { duration: 3000 });
+            }
+          }
+          
+        )
           this.questionService.getAnswers(+this.questionID)
           this.answerSubs = this.questionService.getAnswerUpdateListener().subscribe({
             next: answersData => {
@@ -79,6 +90,9 @@ export class QuestionFormComponent implements OnInit {
                 });
                 this.odpowiedzi.push(answerGroup)
               })
+            },
+            error: error => {
+              this.snackBar.open(error.error.message, 'OK', { duration: 3000 });
             }
           })
         }
@@ -92,7 +106,7 @@ export class QuestionFormComponent implements OnInit {
     const answerGroup = new FormGroup({
       "id_odpowiedzi": new FormControl(null),
       "tresc_odpowiedzi": new FormControl(null, [Validators.required, Validators.maxLength(60)]),
-      "wartosc": new FormControl(null, [Validators.required])
+      "wartosc": new FormControl(null, [Validators.required, Validators.min(0), Validators.max(1)])
     })
     this.odpowiedzi.push(answerGroup)
   }
@@ -111,6 +125,7 @@ export class QuestionFormComponent implements OnInit {
 
   editQuestion() {
     if (this.form.invalid) {
+      this.snackBar.open('Niepoprawnie edytowano pytanie! Popraw formularz!', 'OK', { duration: 3000 })
       return
     }
     if (this.questionID) {
@@ -133,12 +148,13 @@ export class QuestionFormComponent implements OnInit {
   onDeleteAnswer(answerID: number) {
     if (this.questionID && answerID) {
       this.questionService.deleteAnswer(+this.questionID, answerID).subscribe({
-        next: () => {
+        next: deletedAnswer => {
           this.answers = this.answers.filter(answer => answer.id_odpowiedzi !== answerID);
           this.odpowiedzi.removeAt(this.odpowiedzi.length - 1);
+          this.snackBar.open(deletedAnswer.message, 'OK', { duration: 3000 })
         },
         error: error => {
-          console.error(error.message)
+          this.snackBar.open(error.error.message, 'OK', { duration: 3000 });
         }
       })
     } else {
@@ -160,10 +176,27 @@ export class QuestionFormComponent implements OnInit {
           for (let odpowiedz of odpowiedzi) {
             this.questionService.addNewAnswer(odpowiedz.tresc_odpowiedzi, odpowiedz.wartosc, odpowiedz.id_pytania.id_pytania);
           }
+
+          this.snackBar.open('Pytanie dodano pomyślnie!', 'OK', { duration: 3000 })
+          this.router.navigate(['/admin']);
+        },
+        error: error => {
+          this.snackBar.open(error.error.message, 'OK', { duration: 3000 });
         }
       })
     }
     
+  }
+
+  getErrorMessage(controlName: string): string {
+    const control = this.form.get(controlName);
+    if (!control) return '';
+
+    if (control.hasError('required')) return 'Pole jest wymagane!';
+    if (control.hasError('maxlength')) return `Wprowadzono za dużą ilość znaków. Maksymalna ilość znaków: ${control.errors?.['maxlength'].requiredLength}`;
+    if (control.hasError('minlength')) return `Wprowadzono za małą ilość znaków. Minimalna ilość znaków: ${control.errors?.['minlength'].requiredLength}`;
+
+    return '';
   }
 
 }

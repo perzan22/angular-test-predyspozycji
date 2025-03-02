@@ -1,17 +1,5 @@
 const db = require('../db')
-const { addAnswer, resetAnswers } = require('../store/answersStore')
 
-let answers = [];
-
-exports.saveAnswers = (req, res, next) => {
-    const { answer } = req.body
-    if (answer) {
-        addAnswer({value: answer.wartosc_punktowa, label: answer.label});
-        res.status(200).json({ message: 'Odpowiedź zapisana', answer: answer })
-    } else {
-        res.status(400).json({ message: 'Brak odpowiedzi' })
-    }
-}
 
 exports.getAnswers = async (req, res, next) => {
     const id_pytania = req.query.id_pytania
@@ -35,13 +23,6 @@ exports.getAnswers = async (req, res, next) => {
     } else {
         res.status(404).json({ message: 'Nie znaleziono odpowiedzi' })
     }
-}
-
-exports.resetAnswers = (req, res, next) => {
-    resetAnswers();
-    res.status(200).json({
-        message: 'Odpowiedzi wyzerowane.'
-    })
 }
 
 exports.getAllAnswers = async (req, res, next) => {
