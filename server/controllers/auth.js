@@ -16,11 +16,14 @@ exports.login = async (req, res, next) => {
         return res.status(404).json({ message: 'Niepoprawny login!' });
     }
 
+    // Porównanie wpisanego hasła z poprawnym
     const isPasswordValid = await bcrypt.compare(password, admin.rows[0].haslo);
+    // Jeśli niepoprawne hasło to zwróć błąd
     if (!isPasswordValid) {
         return res.status(401).json({ message: 'Niepoprawne hasło!' });
     }
 
+    // Utworzenie tokena JWT
     const token = jwt.sign({ login: login }, `${process.env.TOKEN}`, { expiresIn: '1h' });
 
     res.status(200).json({
@@ -63,18 +66,25 @@ exports.changePassword = async (req, res, next) => {
     })
 }
 
+// Funkcja dodająca nowego administratora
 exports.addAdmin = async (req, res, next) => {
+    // Dane administratora przekazane w ciele żądania
     const { login, password } = req.body;
 
+    // Zahaszowanie hasła
     bcrypt.hash(password, 10).then(hash => {
 
+        // Nowy administrator ma zapisane zahaszowane hasło
         const query = `INSERT INTO administrator (login, haslo) VALUES ($1, $2)`;
 
+        // Wykonanie polecenia
         const result = db.query(query, [login, hash]);
 
+        // Jeśli polecenie się powiodło to informacja o dodaniu administratora
         if (result) {
             res.status(200).json({ message: `Dodano administratora ${login}` });
         } else {
+            // W przypadku niepowodzenia informacja o błedzie
             res.status(404).json({ message: 'Nie udało się dodać nowego administratora.' });
         }
     });

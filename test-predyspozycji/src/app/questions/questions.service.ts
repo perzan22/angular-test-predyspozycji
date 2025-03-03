@@ -26,12 +26,16 @@ export class QuestionService {
 
   constructor(private http: HttpClient, private router: Router, private snackBar: MatSnackBar) { }
 
+  // Funkcja zwracająca pytania z bazy danych
   getQuestions() {
+    // Żądanie GET
     this.http.get<{ questions: any, message: string }>(`http://localhost:3000/api/questions/`).subscribe({
+      // W przypadku powodzenia zwraca opytania do zmiennej i do subskrypcji obserwowanej w komponencie
       next: fetchedQuestions => {
         this.questions = fetchedQuestions.questions;
         this.questionSubs.next({ questions: [...this.questions] })
       },
+      // W przypadku błędu pokazuje informacje
       error: error => {
         this.snackBar.open(error.error.message, 'OK', { duration: 3000 });
       }
@@ -39,7 +43,7 @@ export class QuestionService {
   }
 
   getQuestion(id_pytania: number) {
-    return this.http.get<{ id_pytania: number, tresc: string, instrukcja: string, ilosc_odpowiedzi: number, id_typu: number }>(`http://localhost:3000/api/questions/edit?id_pytania=${id_pytania}`)
+    return this.http.get<{ id_pytania: number, tresc: string, instrukcja: string, ilosc_odpowiedzi: number, id_typu: number }>(`${this.questionApiUrl}/edit?id_pytania=${id_pytania}`)
   }
 
   getAllAnswers() {

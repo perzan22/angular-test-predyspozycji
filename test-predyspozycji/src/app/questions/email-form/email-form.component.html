@@ -29,7 +29,7 @@
             </mat-form-field>
             <section class="buttons">
                 <section class="checkboxes">
-                    <mat-checkbox class="custom-checkbox" formControlName="zgoda-przetwarzania">*Przeczytałem i akceptuję warunki przetwarzania danych osobowych oraz pozostałe zgody.</mat-checkbox>
+                    <mat-checkbox class="custom-checkbox" formControlName="zgoda-przetwarzania">*Przeczytałem i akceptuję <a href="/zgoda-przetwarzania" target="_blank">warunki przetwarzania danych osobowych</a> oraz pozostałe zgody.</mat-checkbox>
                     <mat-error *ngIf="checkBox1Error" class="checkBoxError">{{ getErrorMessage('zgoda-przetwarzania') }}</mat-error>
                     <mat-checkbox class="custom-checkbox" formControlName="zgoda-marketing">*Wyrażam dobrowolną zgodę na otrzymywanie drogą elektroniczną materiałów marketingowo-informacyjnych od Akademii Marynarki Wojennej im. Bohaterów Westerplatte, ul. Śmidowicza 69, 81-127 Gdynia, na wskazany w formularzu adres poczty elektornicznej.</mat-checkbox>
                     <mat-error *ngIf="checkBox2Error" class="checkBoxError">{{ getErrorMessage('zgoda-marketing') }}</mat-error>

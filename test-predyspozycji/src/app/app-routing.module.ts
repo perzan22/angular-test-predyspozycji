@@ -12,11 +12,15 @@ import { CandidatesListComponent } from './admin/candidates/candidates-list/cand
 import { LoginComponent } from './admin/auth/login/login.component';
 import { AuthGuard } from './admin/auth/guards/auth.guard';
 import { SettingsComponent } from './admin/account/settings/settings.component';
+import { RodoComponent } from './rodo/rodo/rodo.component';
+import { FormAccessGuard } from './admin/auth/guards/form-access.guard';
 
+// Trasowanie Angulara
 const routes: Routes = [
   { path: '', component: MainPageComponent },
   { path: 'test', component: SelectQuestionComponent },
-  { path: 'poznaj-wynik', component: EmailFormComponent },
+  { path: 'poznaj-wynik', component: EmailFormComponent, canActivate: [FormAccessGuard] },
+  { path: 'zgoda-przetwarzania', component: RodoComponent },
   { 
     path: 'admin', 
     component: MainPanelComponent, 

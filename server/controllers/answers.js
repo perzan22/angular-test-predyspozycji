@@ -25,15 +25,20 @@ exports.getAnswers = async (req, res, next) => {
     }
 }
 
+// Funckja zwraca wszystkie odpowiedzi
 exports.getAllAnswers = async (req, res, next) => {
+    // Wykonanie polecenia SQL zwracającego wszystkie wiersze encji odpowiedz
     const query = `SELECT * FROM odpowiedz`;
     const result = await db.query(query);
+
     if (result) {
+        // Jeśli polecenie się powiodło to zwracane są odpowiedzi
         res.status(200).json({
             answers: result.rows,
             message: 'Odpowiedzi znalezione!'
         })
     } else {
+        // Jeśli polecenie się nie powiodło to zwracana jest informacja o błędzie
         res.status(404).json({ message: 'Nie znaleziono odpowiedzi' })
     }
 }
@@ -101,37 +106,53 @@ exports.addNewAnswer = async (req, res, next) => {
 
 }
 
+// Funkcja DELETE usuwająca odpowiedź z bazy danych za pomocą transakcji
 exports.deleteAnswer = async (req, res, next) => {
+    // Dane identyfikujące odpowiedź przekazane za pomocą parametrów zapytania
     const answerID = req.query.id_odpowiedzi
     const questionID = req.query.id_pytania
 
+    // Rozpoczęcie połączenia z bazą danych
     const transaction = await db.connect()
 
+    // Konstrukcja obsługująca błędy
     try {
 
+        // Rozpoczęcie transakcji
         await transaction.query('BEGIN');
+
+        // Usunięcie odpowiedzi z bazy danych o podanym id
         const deleteAnswerQuery = `DELETE FROM odpowiedz WHERE id_odpowiedzi = $1`;
         const answerValues = [answerID];
 
+        // Wykonanie polecenia usunięcia odpowiedzi
         const answerResult = await transaction.query(deleteAnswerQuery, answerValues);
 
+        // Edytowanie ilości odpowiedzi dla rekordu w tabeli pytanie o podanym id
         const updateQuestionQuery = `UPDATE pytanie SET ilosc_odpowiedzi = ilosc_odpowiedzi - 1 WHERE id_pytania = $1`;
         const questionValues = [questionID];
 
+        // Wykonanie polecenia edytowania pytania
         await transaction.query(updateQuestionQuery, questionValues);
 
+        // Zatwierdzenie transakcji
         await transaction.query(`COMMIT`);
 
+        // Zwrócenie usuniętej odpowiedzi w przypadku powodzenia
         res.status(201).json({
             message: 'Odpowiedź usunięta pomyślnie!',
             answer: answerResult.rows[0]
         });
 
+    
     } catch (error) {
+        // W przypadku błedu cofane są wszystkie operacje w transakcji
         await transaction.query(`ROLLBACK`);
+        // Zwraca inforkmacje o błedzie
         console.error('Błąd podczas usuwania odpowiedzi:', error);
         res.status(500).json({ error: 'Błąd serwera' });
     } finally {
+        // Zwolnienie połączenia transaction
         transaction.release();
     }
 }

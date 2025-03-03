@@ -32,15 +32,15 @@
                 <mj-button background-color="#EBB42E" font-family="Roboto" href="https://www.amw.gdynia.pl/index.php/kandydat/studia-cywilne">CYWILNA OFERTA AMW</mj-button>
             </mj-column>
             <mj-column>
-                <mj-button background-color="#EBB42E" font-family="Roboto" href="https://www.amw.gdynia.pl/index.php/kandydat/studia-wojskowe/item/1142-kierunki-studiow-wojskowych">WOJSKOWA OFERTA AMW</mj-button>
+                <mj-button background-color="#EBB42E" font-family="Roboto" href="https://www.amw.gdynia.pl/index.php/pl/kandydat/studia-wojskowe">WOJSKOWA OFERTA AMW</mj-button>
             </mj-column>
             <mj-column>
-                <mj-button background-color="#EBB42E" font-family="Roboto" href="https://www.amw.gdynia.pl/index.php/kandydat/studia-cywilne/item/4810-rejestracja-na-studia">PRZEJDŹ DO REKRUTACJI</mj-button>
+                <mj-button background-color="#EBB42E" font-family="Roboto" href="https://www.amw.gdynia.pl/index.php/pl/kandydat/rejestracja-logowanie">PRZEJDŹ DO REKRUTACJI</mj-button>
             </mj-column>
         </mj-section>
         <mj-section full-width="full-width">
             <mj-column background-color="#131936">
-                <mj-image src="https://www.amw.gdynia.pl/images/AMW/Logotypy/AMW/amw2.png" href="https://www.amw.gdynia.pl/index.php">
+                <mj-image src="./amw2.png" href="https://www.amw.gdynia.pl/index.php">
             </mj-column>
         </mj-section>
     </mj-body>

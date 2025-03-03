@@ -25,7 +25,9 @@ import { AuthInterceptor } from './admin/auth/auth.interceptor';
 import { SettingsComponent } from './admin/account/settings/settings.component';
 import { HexagonComponent } from './hexagon/hexagon/hexagon.component';
 import { DialogComponent } from './dialog/dialog/dialog.component';
+import { RodoComponent } from './rodo/rodo/rodo.component';
 
+// Deklaracja komponentów
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,8 +45,10 @@ import { DialogComponent } from './dialog/dialog/dialog.component';
     CandidatesListComponent,
     SettingsComponent,
     HexagonComponent,
-    DialogComponent
+    DialogComponent,
+    RodoComponent
   ],
+  // Import potrzebnych modułów
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -53,11 +57,13 @@ import { DialogComponent } from './dialog/dialog/dialog.component';
     ReactiveFormsModule,
     BrowserAnimationsModule
   ],
+  // Zależności, z których można korzystać we wszystkich komponentach
   providers: [
     provideAnimationsAsync(),
     CookieService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
+  // Określenie komponentu do uruchomienia na start
   bootstrap: [AppComponent]
 })
 export class AppModule { }

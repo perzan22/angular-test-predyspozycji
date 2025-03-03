@@ -1,6 +1,7 @@
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
+// Konfiguracja serwera SMTP
 const mail = nodemailer.createTransport({
     host: process.env.SMTP_SERVER,
     port: Number(process.env.SMTP_PORT),

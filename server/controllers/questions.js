@@ -56,25 +56,29 @@ exports.editQuestion = async (req, res, next) => {
     }
 }
 
+// Funkcja POST dodające nowe pytanie do bazy danych
 exports.addQuestion = async (req, res, next) => {
 
+    // Dane pobrane z ciała body żądania
     const { tresc, instrukcja, typ_pytania } = req.body;
 
+    // Wykonanie zapytania SQL dodająca nowy rekord do tabeli pytanie
     const query = `INSERT INTO pytanie (tresc, instrukcja, id_typu, ilosc_odpowiedzi) VALUES ($1, $2, $3, $4) RETURNING id_pytania`
     const values = [tresc, instrukcja, typ_pytania, 0]
 
+    // Try catch sprawdza wystąpienie błędów
     try {
-
+        // Jeśli polecenie się udało to zwraca id nowego pytania
         const result = await db.query(query, values);
         res.status(201).json({
             id_pytania: result.rows[0].id_pytania
         })
 
     } catch (error) {
+        // W przypadku braku powodzenia zwraca informacje o błedzie
         console.error(error)
         res.status(500).json({ error: 'Błąd podczas dodawania pytania.' });
     }
-
 }
 
 exports.deleteQuestion = async (req, res, next) => {

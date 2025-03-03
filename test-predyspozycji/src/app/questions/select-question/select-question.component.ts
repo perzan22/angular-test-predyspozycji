@@ -28,24 +28,39 @@ export class SelectQuestionComponent implements OnInit {
   constructor(private router: Router, private questionService: QuestionService, private snackBar: MatSnackBar) {}
 
   
+  // Funkcja uruchamiana po zainicjowaniu komponentu
   ngOnInit(): void {
+    // Wyzerowanie pytań i odpowiedzi
     this.currentQuestionIndex = 0;
     this.candidateAnswers = [];
+
+    // Zwrócenie do serwisu pytań
     this.questionService.getQuestions();
+    // Przekazanie pytań do komponentu za pomocą observable
     this.questionsSubs = this.questionService.getQuestionUpdateListener().subscribe({
+      // Wykonywane jeśli nie ma błędu
       next: questionData => {
+        // Wypełnienie tabeli questions danymi z serwisu
         this.questions = questionData.questions
+        // Zwrócenie do serwisu odpowiedzi do pytania o indeksie currentQuestionIndex
         this.questionService.getAnswers(this.questions[this.currentQuestionIndex].id_pytania);
+        // Przekazanie odpowiedzi do komponentu za pomocą observable
         this.answersSubs = this.questionService.getAnswerUpdateListener().subscribe({
+          // Wykonane jeśli nie ma błedu
           next: answerData => {
+            // Wypełnienie tabeli answer danymi z serwisu
             this.answers = answerData.answers
           },
+          // W przypadku błedu związanego z odopowiedziami
           error: error => {
+            // Zwraca informacje o błędzie
             this.snackBar.open(error.error.message, 'OK', { duration: 3000 });
           }
         })
       },
+      // W przypadku błedu związanego z pytaniami
       error: error => {
+         // Zwraca informacje o błędzie
         this.snackBar.open(error.error.message, 'OK', { duration: 3000 });
       }
     })
@@ -65,13 +80,11 @@ export class SelectQuestionComponent implements OnInit {
           this.snackBar.open(error.error.message, 'OK', { duration: 3000 });
         }
       })
-      console.log(this.currentQuestionIndex + " " + this.questions.length)
     } else {
       this.candidateAnswers.push(answer)
       this.currentQuestionIndex++;
       this.questionService.answersToResult = this.candidateAnswers;
-      console.log(this.candidateAnswers)
-      console.log('Koniec')
+      localStorage.setItem('testCompleted', 'true');
       this.router.navigate(['/poznaj-wynik'])
     }
   }

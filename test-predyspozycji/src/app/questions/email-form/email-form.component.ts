@@ -59,7 +59,6 @@ export class EmailFormComponent implements OnInit {
 
     if (this.form.invalid) {
       if (this.form.get('zgoda-przetwarzania')?.hasError('required')) {
-        console.log('blad')
         this.checkBox1Error = true;
       }
         
@@ -80,7 +79,6 @@ export class EmailFormComponent implements OnInit {
         this.resultService.getResults(this.candidateAnswers).subscribe({
           next: response => {
 
-            console.log(response)
             this.kierunek = response.kierunek;
             this.wynik = response.wynik
 
@@ -94,6 +92,7 @@ export class EmailFormComponent implements OnInit {
 
                         dialogRef.afterClosed().subscribe({
                           next: () => {
+                            localStorage.clear();
                             this.router.navigate(['/'])
                           },
                           error: () => {

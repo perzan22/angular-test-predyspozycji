@@ -45,23 +45,29 @@ export class CandidatesListComponent implements OnInit {
     })
   }
 
+  // Funkcja eksportująca dane kandydatów
   exportDataToExcel() {
+    // Konwersja danych do arkusza excel
     const worksheet: xlsx.WorkSheet = xlsx.utils.json_to_sheet(this.candidates);
 
+    // Tworzenie skoroszytu excel o nazwie Dane kandydatów
     const workbook: xlsx.WorkBook = {
       Sheets: { 'Dane kandydatów': worksheet },
       SheetNames: ['Dane kandydatów']
     };
 
+    // Zapisanie danych do skoroszytu Dane kandydatów
     const excelBuffer: any = xlsx.write(workbook, {
       bookType: 'xlsx',
       type: 'array'
     })
 
+    // Tworzenie pliku i jego pobranie
     const fileName = 'kandydaci-na-studia.xlsx';
     const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
     saveAs(blob, fileName);
 
+    // Powiadomienie użytkownika o pobraniu pliku
     this.snackBar.open('Pobrano plik .xlsx', 'OK', { duration: 3000 })
   }
 
