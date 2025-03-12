@@ -24,7 +24,7 @@ export class StudyFieldsFormComponent implements OnInit {
   ngOnInit(): void {
     this.form = new FormGroup({
       "nazwa": new FormControl(null, {
-        validators: [Validators.required, Validators.maxLength(30)]
+        validators: [Validators.required, Validators.maxLength(60)]
       }),
       "wydzial": new FormControl(null, {
         validators: [Validators.required, Validators.maxLength(40)]
