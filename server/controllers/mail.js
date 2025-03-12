@@ -9,7 +9,7 @@ exports.sendMail = async (req, res, next) => {
     const { imie, nazwisko, kierunek, email } = req.body;
     
     // Przesłanie szablonu maila z pliku .mjml
-    const mjmlTamplate = fs.readFileSync("../views/email.mjml", "utf8");
+    const mjmlTamplate = fs.readFileSync("../server/views/email.mjml", "utf8");
 
     // Wprowadzenie danych do szablonu
     const mjmlWithData = mjmlTamplate

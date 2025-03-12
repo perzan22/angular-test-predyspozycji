@@ -40,7 +40,7 @@
         </mj-section>
         <mj-section full-width="full-width">
             <mj-column background-color="#131936">
-                <mj-image src="./amw2.png" href="https://www.amw.gdynia.pl/index.php">
+                <mj-image width="500px" src="https://www.dropbox.com/scl/fi/ugoim6ik1y1zgpi0luwbu/amw2.png?rlkey=yyk3rss831xsr5fvzlbbtpjwq&st=wbowti3s&raw=1" href="https://www.amw.gdynia.pl/index.php" />
             </mj-column>
         </mj-section>
     </mj-body>
