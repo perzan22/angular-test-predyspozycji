@@ -86,8 +86,8 @@ export class EmailFormComponent implements OnInit {
               next: response => {
                 this.studyFieldsService.getStudyField(this.kierunek).subscribe({
                   next: studyField => {
-                    // this.mailService.sendMail(this.form.value.imie, this.form.value.nazwisko, studyField.nazwa, this.form.value.email).subscribe({
-                    // //   next: () => {
+                    this.mailService.sendMail(this.form.value.imie, this.form.value.nazwisko, studyField.nazwa, this.form.value.email).subscribe({    
+                      next: () => {
                         const dialogRef = this.dialog.open(DialogComponent, { data: { message: response.message } })
 
                         dialogRef.afterClosed().subscribe({
@@ -99,13 +99,16 @@ export class EmailFormComponent implements OnInit {
                             this.snackBar.open('Nie udało się otworzyć okna dialogowego.', 'OK', { duration: 3000 });
                           }
                         })
+                      },
+                      error: error => {
+                        this.snackBar.open(error.error.message, 'OK', { duration: 3000 });
+                      }
+                    })
+                    
                   },
                   error: error => {
-                      this.snackBar.open(error.error.message, 'OK', { duration: 3000 });
+                    this.snackBar.open(error.error.message, 'OK', { duration: 3000 });
                   }
-                    // // })
-                    
-                  //}
                 })
                 
               },
