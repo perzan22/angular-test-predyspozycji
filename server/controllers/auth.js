@@ -58,7 +58,7 @@ exports.changePassword = async (req, res, next) => {
             if (result) {
                 res.status(200).json({ message: 'Zaktualizowano hasło!' })
             } else {
-                res.status(401).json({ message: 'Nie udało się zaktualizować hasła!' })
+                res.status(501).json({ message: 'Nie udało się zaktualizować hasła!' })
             }
 
         })
@@ -85,7 +85,7 @@ exports.addAdmin = async (req, res, next) => {
             res.status(200).json({ message: `Dodano administratora ${login}` });
         } else {
             // W przypadku niepowodzenia informacja o błedzie
-            res.status(404).json({ message: 'Nie udało się dodać nowego administratora.' });
+            res.status(501).json({ message: 'Nie udało się dodać nowego administratora.' });
         }
     });
     

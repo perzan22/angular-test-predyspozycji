@@ -44,6 +44,7 @@ export class AuthService {
         }
       },
       error: error => {
+        console.log(error)
         this.snackBar.open(error.error.message, 'OK', { duration: 3000 })
       }
     })
